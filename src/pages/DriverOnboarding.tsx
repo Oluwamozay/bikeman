@@ -52,7 +52,7 @@ const DriverOnboarding = () => {
     vehicleYear: "",
   });
 
-  const [documents, setDocuments] = useState({
+  const [documents, setDocuments] = useState<DocsState>({
     driversLicense: { ...emptyDoc },
     vehicleRegistration: { ...emptyDoc },
     insurance: { ...emptyDoc },
