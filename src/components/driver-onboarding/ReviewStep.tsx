@@ -9,9 +9,6 @@ import {
   Hash,
   Palette,
   Calendar,
-  FileText,
-  Shield,
-  Camera,
   CheckCircle2,
   Sparkles,
 } from "lucide-react";

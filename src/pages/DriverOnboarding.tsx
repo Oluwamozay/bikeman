@@ -10,7 +10,20 @@ import { toast } from "@/hooks/use-toast";
 
 const TOTAL_STEPS = 4;
 
-const emptyDoc = { file: null, preview: null, status: "empty" as const };
+type DocStatus = "empty" | "uploading" | "uploaded";
+interface DocFile {
+  file: File | null;
+  preview: string | null;
+  status: DocStatus;
+}
+interface DocsState {
+  driversLicense: DocFile;
+  vehicleRegistration: DocFile;
+  insurance: DocFile;
+  profilePhoto: DocFile;
+}
+
+const emptyDoc: DocFile = { file: null, preview: null, status: "empty" };
 
 const stepTitles = [
   { title: "Tell us about yourself", subtitle: "We need your basic details to get started" },
