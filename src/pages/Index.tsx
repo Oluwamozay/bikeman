@@ -14,6 +14,30 @@ const Index = () => {
       <div className="absolute top-20 -right-20 w-80 h-80 rounded-full bg-primary/8 blur-3xl" />
       <div className="absolute -bottom-20 -left-20 w-96 h-96 rounded-full bg-secondary/8 blur-3xl" />
 
+      {/* Auth button - top right */}
+      <div className="absolute top-4 right-4 z-20">
+        {user ? (
+          <div className="flex items-center gap-2">
+            <span className="text-xs text-muted-foreground truncate max-w-[120px]">
+              {user.email}
+            </span>
+            <button
+              onClick={signOut}
+              className="w-9 h-9 rounded-xl bg-card border border-border/50 flex items-center justify-center shadow-card hover:bg-muted transition-colors"
+            >
+              <LogOut className="h-4 w-4" />
+            </button>
+          </div>
+        ) : (
+          <button
+            onClick={() => navigate("/auth")}
+            className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-card border border-border/50 shadow-card hover:bg-muted transition-colors"
+          >
+            <LogIn className="h-4 w-4 text-primary" />
+            <span className="text-xs font-medium">Sign In</span>
+          </button>
+        )}
+
       <div className="relative z-10 max-w-md mx-auto px-5 py-8 min-h-screen flex flex-col">
         {/* Hero */}
         <motion.div
