@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { Bike, ArrowRight, Shield, Zap } from "lucide-react";
+import { Bike, ArrowRight, Shield, Zap, ShoppingBag, Repeat2 } from "lucide-react";
 
 const Index = () => {
   const navigate = useNavigate();
