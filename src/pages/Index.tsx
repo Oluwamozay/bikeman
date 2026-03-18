@@ -37,6 +37,7 @@ const Index = () => {
             <span className="text-xs font-medium">Sign In</span>
           </button>
         )}
+      </div>
 
       <div className="relative z-10 max-w-md mx-auto px-5 py-8 min-h-screen flex flex-col">
         {/* Hero */}
