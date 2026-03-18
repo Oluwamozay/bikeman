@@ -1,7 +1,8 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { Bike, ArrowRight, Shield, Zap, ShoppingBag, Repeat2 } from "lucide-react";
+import { Bike, ArrowRight, Shield, Zap, ShoppingBag, Repeat2, LogIn, LogOut, User } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Index = () => {
   const navigate = useNavigate();
