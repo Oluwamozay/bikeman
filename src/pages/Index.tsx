@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { Bike, ArrowRight, Shield, Zap } from "lucide-react";
+import { Bike, ArrowRight, Shield, Zap, ShoppingBag, Repeat2 } from "lucide-react";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -77,6 +77,25 @@ const Index = () => {
           >
             Book a Ride
           </Button>
+
+          <div className="grid grid-cols-2 gap-3 pt-1">
+            <Button
+              variant="outline"
+              onClick={() => navigate("/marketplace")}
+              className="h-12 rounded-xl border-border/50 flex items-center gap-2"
+            >
+              <Repeat2 className="h-4 w-4 text-primary" />
+              <span className="text-sm font-medium">P2P Trade</span>
+            </Button>
+            <Button
+              variant="outline"
+              onClick={() => navigate("/bike-shop")}
+              className="h-12 rounded-xl border-border/50 flex items-center gap-2"
+            >
+              <ShoppingBag className="h-4 w-4 text-secondary" />
+              <span className="text-sm font-medium">Bike Shop</span>
+            </Button>
+          </div>
         </motion.div>
       </div>
     </div>
