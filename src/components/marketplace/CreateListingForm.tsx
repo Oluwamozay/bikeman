@@ -86,7 +86,7 @@ const CreateListingForm = ({ onClose, onSuccess }: CreateListingFormProps) => {
         imageUrls = await uploadImages();
       }
 
-      const { error } = await supabase.from("bike_listings").insert({
+      const { error } = await (supabase.from as any)("bike_listings").insert({
         user_id: user.id,
         title: form.title.trim(),
         description: form.description.trim(),
