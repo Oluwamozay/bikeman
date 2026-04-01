@@ -1,9 +1,12 @@
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
+import CreateListingForm from "@/components/marketplace/CreateListingForm";
 import {
   Search,
   SlidersHorizontal,
@@ -13,13 +16,14 @@ import {
   Heart,
   Bike,
   ArrowUpDown,
+  Sparkles,
 } from "lucide-react";
 
 interface Listing {
   id: string;
   title: string;
   price: number;
-  condition: "new" | "used" | "refurbished";
+  condition: string;
   location: string;
   image: string;
   brand: string;
@@ -84,9 +88,11 @@ const filterTabs = ["All", "Used", "New", "Refurbished"];
 
 const Marketplace = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [search, setSearch] = useState("");
   const [activeFilter, setActiveFilter] = useState("All");
   const [listings, setListings] = useState(mockListings);
+  const [showCreateForm, setShowCreateForm] = useState(false);
 
   const filtered = listings.filter((l) => {
     const matchesSearch =
@@ -102,6 +108,14 @@ const Marketplace = () => {
     setListings((prev) =>
       prev.map((l) => (l.id === id ? { ...l, isFavorite: !l.isFavorite } : l))
     );
+  };
+
+  const handleCreateClick = () => {
+    if (!user) {
+      navigate("/auth");
+      return;
+    }
+    setShowCreateForm(true);
   };
 
   return (
@@ -130,11 +144,29 @@ const Marketplace = () => {
             <p className="text-xs text-muted-foreground">Buy & sell bikes directly</p>
           </div>
           <Button
+            onClick={handleCreateClick}
             size="icon"
             className="h-9 w-9 rounded-xl gradient-primary text-primary-foreground shadow-glow"
           >
             <Plus className="h-4 w-4" />
           </Button>
+        </motion.div>
+
+        {/* Promo Banner */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.05 }}
+          className="mb-4 rounded-2xl gradient-primary p-4 text-primary-foreground relative overflow-hidden"
+        >
+          <div className="absolute top-0 right-0 w-24 h-24 rounded-full bg-white/10 -translate-y-1/2 translate-x-1/2" />
+          <div className="relative z-10 flex items-center gap-3">
+            <Sparkles className="h-6 w-6 shrink-0" />
+            <div>
+              <p className="text-sm font-bold">Sell your bike in minutes</p>
+              <p className="text-[11px] opacity-90">Free listing • Verified buyers • Secure deals</p>
+            </div>
+          </div>
         </motion.div>
 
         {/* Search */}
@@ -203,6 +235,7 @@ const Marketplace = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 + i * 0.08 }}
+              whileHover={{ y: -4, transition: { duration: 0.2 } }}
               className="rounded-xl bg-card border border-border/50 shadow-card overflow-hidden group cursor-pointer"
             >
               {/* Image */}
@@ -211,7 +244,9 @@ const Marketplace = () => {
                   src={listing.image}
                   alt={listing.title}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  loading="lazy"
                 />
+                <div className="absolute inset-0 bg-gradient-to-t from-foreground/20 to-transparent" />
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
@@ -273,6 +308,16 @@ const Marketplace = () => {
           </motion.div>
         )}
       </div>
+
+      {/* Create Listing Modal */}
+      <AnimatePresence>
+        {showCreateForm && (
+          <CreateListingForm
+            onClose={() => setShowCreateForm(false)}
+            onSuccess={() => setShowCreateForm(false)}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 };
