@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "sonner";
-import { X, ImagePlus, Loader2, Camera } from "lucide-react";
+import { X, Loader2, Camera } from "lucide-react";
 
 interface CreateListingFormProps {
   onClose: () => void;
