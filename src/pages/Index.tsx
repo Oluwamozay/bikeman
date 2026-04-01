@@ -1,8 +1,15 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { Bike, ArrowRight, Shield, Zap, ShoppingBag, Repeat2, LogIn, LogOut, User } from "lucide-react";
+import { Bike, ArrowRight, Shield, Zap, ShoppingBag, Repeat2, LogIn, LogOut, Users, TrendingUp } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
+import SocialLinks from "@/components/SocialLinks";
+import InstallPrompt from "@/components/InstallPrompt";
+
+const stats = [
+  { label: "Active Riders", value: "2,400+", icon: Users },
+  { label: "Bikes Listed", value: "850+", icon: TrendingUp },
+];
 
 const Index = () => {
   const navigate = useNavigate();
@@ -60,12 +67,32 @@ const Index = () => {
             Ocada
             <span className="gradient-primary bg-clip-text text-transparent"> Connect</span>
           </h1>
-          <p className="text-muted-foreground text-lg leading-relaxed mb-10">
+          <p className="text-muted-foreground text-lg leading-relaxed mb-6">
             Nigeria's smartest ride platform. Connect with riders, earn more, ride safer.
           </p>
 
+          {/* Stats row */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.35 }}
+            className="flex gap-3 mb-8"
+          >
+            {stats.map(({ label, value, icon: Icon }) => (
+              <div key={label} className="flex-1 bg-card rounded-xl border border-border/50 shadow-card p-3 flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+                  <Icon className="h-4 w-4 text-primary" />
+                </div>
+                <div>
+                  <p className="text-sm font-bold">{value}</p>
+                  <p className="text-[10px] text-muted-foreground">{label}</p>
+                </div>
+              </div>
+            ))}
+          </motion.div>
+
           {/* Feature pills */}
-          <div className="flex flex-wrap gap-2 mb-10">
+          <div className="flex flex-wrap gap-2 mb-8">
             {[
               { icon: Zap, label: "Fast Rides" },
               { icon: Shield, label: "Verified Drivers" },
@@ -89,7 +116,7 @@ const Index = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
-          className="space-y-3 pb-6"
+          className="space-y-3 pb-2"
         >
           <Button
             onClick={() => navigate("/driver-onboarding")}
@@ -124,7 +151,13 @@ const Index = () => {
             </Button>
           </div>
         </motion.div>
+
+        {/* Social Links */}
+        <SocialLinks />
       </div>
+
+      {/* Install Prompt */}
+      <InstallPrompt />
     </div>
   );
 };
