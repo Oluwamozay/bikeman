@@ -7,6 +7,7 @@ const tabs = [
   { icon: ShoppingBag, label: "Shop", path: "/shop" },
   { icon: Repeat2, label: "Trade", path: "/trade" },
   { icon: Car, label: "Ride", path: "/ride" },
+  { icon: Settings, label: "Settings", path: "/settings" },
 ];
 
 const BottomNav = () => {
