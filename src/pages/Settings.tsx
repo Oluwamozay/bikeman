@@ -74,8 +74,8 @@ const Settings = () => {
     const load = async () => {
       try {
         const [profileRes, settingsRes] = await Promise.all([
-          supabase.from("profiles").select("*").eq("user_id", user.id).maybeSingle(),
-          supabase.from("user_settings").select("*").eq("user_id", user.id).maybeSingle(),
+          (supabase.from as any)("profiles").select("*").eq("user_id", user.id).maybeSingle(),
+          (supabase.from as any)("user_settings").select("*").eq("user_id", user.id).maybeSingle(),
         ]);
 
         if (profileRes.data) {
