@@ -129,11 +129,11 @@ const Settings = () => {
   const saveSettings = async (partial: Record<string, any>) => {
     if (!user) return;
     try {
-      const { data } = await supabase.from("user_settings").select("id").eq("user_id", user.id).maybeSingle();
+      const { data } = await (supabase.from as any)("user_settings").select("id").eq("user_id", user.id).maybeSingle();
       if (data) {
-        await supabase.from("user_settings").update({ ...partial, updated_at: new Date().toISOString() } as any).eq("user_id", user.id);
+        await (supabase.from as any)("user_settings").update({ ...partial, updated_at: new Date().toISOString() }).eq("user_id", user.id);
       } else {
-        await supabase.from("user_settings").insert({ user_id: user.id, ...partial } as any);
+        await (supabase.from as any)("user_settings").insert({ user_id: user.id, ...partial });
       }
     } catch { /* tables may not exist */ }
   };
