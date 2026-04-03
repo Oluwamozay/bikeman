@@ -51,7 +51,7 @@ const Index = () => {
         )}
       </div>
 
-      <div className="relative z-10 max-w-md mx-auto px-5 py-8 min-h-screen flex flex-col">
+      <div className="relative z-10 max-w-md mx-auto px-5 py-8 pb-24 min-h-screen flex flex-col">
         {/* Hero */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
