@@ -13,6 +13,7 @@ import BikeShop from "./pages/BikeShop";
 import Shop from "./pages/Shop";
 import Trade from "./pages/Trade";
 import Ride from "./pages/Ride";
+import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
