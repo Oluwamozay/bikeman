@@ -5,6 +5,7 @@ import { Bike, ArrowRight, ShoppingBag, Repeat2, Car, LogIn, LogOut, Users, Tren
 import { useAuth } from "@/contexts/AuthContext";
 import SocialLinks from "@/components/SocialLinks";
 import InstallPrompt from "@/components/InstallPrompt";
+import ThemeToggle from "@/components/ThemeToggle";
 
 const stats = [
   { label: "Active Riders", value: "2,400+", icon: Users },
@@ -28,7 +29,8 @@ const Index = () => {
       <div className="absolute bottom-0 right-0 w-[300px] h-[300px] rounded-full bg-primary/5 blur-[80px] pointer-events-none" />
 
       {/* Auth button */}
-      <div className="absolute top-4 right-4 z-20">
+      <div className="absolute top-4 right-4 z-20 flex items-center gap-2">
+        <ThemeToggle />
         {user ? (
           <div className="flex items-center gap-2">
             <span className="text-xs text-muted-foreground truncate max-w-[120px]">{user.email}</span>
@@ -49,7 +51,7 @@ const Index = () => {
         )}
       </div>
 
-      <div className="relative z-10 max-w-md mx-auto px-5 py-8 min-h-screen flex flex-col">
+      <div className="relative z-10 max-w-md mx-auto px-5 py-8 pb-24 min-h-screen flex flex-col">
         {/* Hero */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}

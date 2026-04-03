@@ -6,53 +6,53 @@
 
 @layer base {
   :root {
-    --background: 150 40% 4%;
-    --foreground: 140 60% 92%;
+    --background: 140 30% 96%;
+    --foreground: 150 40% 10%;
 
-    --card: 150 35% 7%;
-    --card-foreground: 140 60% 92%;
+    --card: 140 25% 93%;
+    --card-foreground: 150 40% 10%;
 
-    --popover: 150 35% 7%;
-    --popover-foreground: 140 60% 92%;
+    --popover: 140 25% 93%;
+    --popover-foreground: 150 40% 10%;
 
-    --primary: 142 70% 55%;
-    --primary-foreground: 150 40% 4%;
+    --primary: 142 70% 40%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 150 40% 12%;
-    --secondary-foreground: 140 60% 92%;
+    --secondary: 140 20% 88%;
+    --secondary-foreground: 150 40% 10%;
 
-    --muted: 150 30% 12%;
-    --muted-foreground: 145 20% 55%;
+    --muted: 140 15% 90%;
+    --muted-foreground: 150 10% 40%;
 
-    --accent: 142 70% 55%;
-    --accent-foreground: 150 40% 4%;
+    --accent: 142 70% 40%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 150 30% 14%;
-    --input: 150 30% 14%;
-    --ring: 142 70% 55%;
+    --border: 140 15% 85%;
+    --input: 140 15% 85%;
+    --ring: 142 70% 40%;
 
     --radius: 0.75rem;
 
-    --sidebar-background: 150 35% 5%;
-    --sidebar-foreground: 140 60% 92%;
-    --sidebar-primary: 142 70% 55%;
-    --sidebar-primary-foreground: 150 40% 4%;
-    --sidebar-accent: 150 30% 10%;
-    --sidebar-accent-foreground: 140 60% 92%;
-    --sidebar-border: 150 30% 12%;
-    --sidebar-ring: 142 70% 55%;
+    --sidebar-background: 140 25% 94%;
+    --sidebar-foreground: 150 40% 10%;
+    --sidebar-primary: 142 70% 40%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 140 15% 90%;
+    --sidebar-accent-foreground: 150 40% 10%;
+    --sidebar-border: 140 15% 85%;
+    --sidebar-ring: 142 70% 40%;
 
     /* Custom tokens */
-    --gradient-primary: linear-gradient(135deg, hsl(142, 70%, 55%), hsl(158, 60%, 45%));
-    --gradient-secondary: linear-gradient(135deg, hsl(150, 40%, 8%), hsl(150, 35%, 14%));
-    --gradient-dark: linear-gradient(180deg, hsl(150, 40%, 4%), hsl(150, 35%, 7%), hsl(148, 30%, 9%));
-    --gradient-glow: linear-gradient(135deg, hsl(142, 70%, 55%), hsl(160, 60%, 40%));
-    --shadow-glow: 0 0 40px -8px hsl(142 70% 55% / 0.4);
-    --shadow-card: 0 4px 20px -2px hsl(0 0% 0% / 0.3);
-    --shadow-elevated: 0 12px 40px -8px hsl(0 0% 0% / 0.5);
+    --gradient-primary: linear-gradient(135deg, hsl(142, 70%, 40%), hsl(158, 60%, 35%));
+    --gradient-secondary: linear-gradient(135deg, hsl(140, 20%, 92%), hsl(140, 25%, 88%));
+    --gradient-dark: linear-gradient(180deg, hsl(140, 30%, 96%), hsl(140, 25%, 93%), hsl(140, 20%, 90%));
+    --gradient-glow: linear-gradient(135deg, hsl(142, 70%, 40%), hsl(160, 60%, 35%));
+    --shadow-glow: 0 0 40px -8px hsl(142 70% 40% / 0.25);
+    --shadow-card: 0 4px 20px -2px hsl(0 0% 0% / 0.08);
+    --shadow-elevated: 0 12px 40px -8px hsl(0 0% 0% / 0.12);
   }
 
   .dark {
@@ -83,6 +83,15 @@
     --sidebar-accent-foreground: 140 60% 92%;
     --sidebar-border: 150 30% 12%;
     --sidebar-ring: 142 70% 55%;
+
+    /* Custom tokens - dark */
+    --gradient-primary: linear-gradient(135deg, hsl(142, 70%, 55%), hsl(158, 60%, 45%));
+    --gradient-secondary: linear-gradient(135deg, hsl(150, 40%, 8%), hsl(150, 35%, 14%));
+    --gradient-dark: linear-gradient(180deg, hsl(150, 40%, 4%), hsl(150, 35%, 7%), hsl(148, 30%, 9%));
+    --gradient-glow: linear-gradient(135deg, hsl(142, 70%, 55%), hsl(160, 60%, 40%));
+    --shadow-glow: 0 0 40px -8px hsl(142 70% 55% / 0.4);
+    --shadow-card: 0 4px 20px -2px hsl(0 0% 0% / 0.3);
+    --shadow-elevated: 0 12px 40px -8px hsl(0 0% 0% / 0.5);
   }
 }
 
@@ -127,14 +136,17 @@
   .glass {
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
-    background: hsl(150 35% 7% / 0.7);
-    border: 1px solid hsl(150 30% 14% / 0.5);
+    background: hsl(var(--card) / 0.7);
+    border: 1px solid hsl(var(--border) / 0.5);
   }
   .glass-dark {
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
-    background: hsl(150 40% 4% / 0.8);
-    border: 1px solid hsl(150 30% 14% / 0.3);
+    background: hsl(var(--background) / 0.8);
+    border: 1px solid hsl(var(--border) / 0.3);
+  }
+  .safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
   }
   .text-gradient {
     background: var(--gradient-glow);
