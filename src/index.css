@@ -6,92 +6,83 @@
 
 @layer base {
   :root {
-    --background: 150 20% 96%;
-    --foreground: 160 30% 8%;
+    --background: 150 40% 4%;
+    --foreground: 140 60% 92%;
 
-    --card: 150 15% 99%;
-    --card-foreground: 160 30% 8%;
+    --card: 150 35% 7%;
+    --card-foreground: 140 60% 92%;
 
-    --popover: 150 15% 99%;
-    --popover-foreground: 160 30% 8%;
+    --popover: 150 35% 7%;
+    --popover-foreground: 140 60% 92%;
 
-    --primary: 152 60% 36%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 142 70% 55%;
+    --primary-foreground: 150 40% 4%;
 
-    --secondary: 160 45% 20%;
-    --secondary-foreground: 0 0% 100%;
+    --secondary: 150 40% 12%;
+    --secondary-foreground: 140 60% 92%;
 
-    --muted: 150 12% 91%;
-    --muted-foreground: 155 10% 42%;
+    --muted: 150 30% 12%;
+    --muted-foreground: 145 20% 55%;
 
-    --accent: 85 55% 50%;
-    --accent-foreground: 160 30% 8%;
+    --accent: 142 70% 55%;
+    --accent-foreground: 150 40% 4%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 150 12% 87%;
-    --input: 150 12% 87%;
-    --ring: 152 60% 36%;
+    --border: 150 30% 14%;
+    --input: 150 30% 14%;
+    --ring: 142 70% 55%;
 
     --radius: 0.75rem;
 
-    --sidebar-background: 150 15% 97%;
-    --sidebar-foreground: 160 20% 20%;
-    --sidebar-primary: 152 60% 36%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 150 12% 93%;
-    --sidebar-accent-foreground: 160 20% 20%;
-    --sidebar-border: 150 12% 90%;
-    --sidebar-ring: 152 60% 36%;
+    --sidebar-background: 150 35% 5%;
+    --sidebar-foreground: 140 60% 92%;
+    --sidebar-primary: 142 70% 55%;
+    --sidebar-primary-foreground: 150 40% 4%;
+    --sidebar-accent: 150 30% 10%;
+    --sidebar-accent-foreground: 140 60% 92%;
+    --sidebar-border: 150 30% 12%;
+    --sidebar-ring: 142 70% 55%;
 
     /* Custom tokens */
-    --gradient-primary: linear-gradient(135deg, hsl(152, 60%, 36%), hsl(165, 55%, 42%));
-    --gradient-secondary: linear-gradient(135deg, hsl(160, 45%, 20%), hsl(152, 60%, 36%));
-    --gradient-dark: linear-gradient(135deg, hsl(160, 30%, 8%), hsl(155, 25%, 15%));
-    --gradient-glow: linear-gradient(135deg, hsl(152, 60%, 36%), hsl(85, 55%, 50%));
-    --shadow-glow: 0 0 30px -5px hsl(152 60% 36% / 0.35);
-    --shadow-card: 0 4px 20px -2px hsl(160 30% 8% / 0.06);
-    --shadow-elevated: 0 12px 40px -8px hsl(160 30% 8% / 0.12);
+    --gradient-primary: linear-gradient(135deg, hsl(142, 70%, 55%), hsl(158, 60%, 45%));
+    --gradient-secondary: linear-gradient(135deg, hsl(150, 40%, 8%), hsl(150, 35%, 14%));
+    --gradient-dark: linear-gradient(180deg, hsl(150, 40%, 4%), hsl(150, 35%, 7%), hsl(148, 30%, 9%));
+    --gradient-glow: linear-gradient(135deg, hsl(142, 70%, 55%), hsl(160, 60%, 40%));
+    --shadow-glow: 0 0 40px -8px hsl(142 70% 55% / 0.4);
+    --shadow-card: 0 4px 20px -2px hsl(0 0% 0% / 0.3);
+    --shadow-elevated: 0 12px 40px -8px hsl(0 0% 0% / 0.5);
   }
 
   .dark {
-    --background: 160 25% 6%;
-    --foreground: 150 15% 95%;
-
-    --card: 160 22% 10%;
-    --card-foreground: 150 15% 95%;
-
-    --popover: 160 22% 10%;
-    --popover-foreground: 150 15% 95%;
-
-    --primary: 152 55% 42%;
-    --primary-foreground: 0 0% 100%;
-
-    --secondary: 160 40% 30%;
-    --secondary-foreground: 0 0% 100%;
-
-    --muted: 160 18% 16%;
-    --muted-foreground: 150 10% 55%;
-
-    --accent: 85 50% 45%;
-    --accent-foreground: 160 30% 8%;
-
+    --background: 150 40% 4%;
+    --foreground: 140 60% 92%;
+    --card: 150 35% 7%;
+    --card-foreground: 140 60% 92%;
+    --popover: 150 35% 7%;
+    --popover-foreground: 140 60% 92%;
+    --primary: 142 70% 55%;
+    --primary-foreground: 150 40% 4%;
+    --secondary: 150 40% 12%;
+    --secondary-foreground: 140 60% 92%;
+    --muted: 150 30% 12%;
+    --muted-foreground: 145 20% 55%;
+    --accent: 142 70% 55%;
+    --accent-foreground: 150 40% 4%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 100%;
-
-    --border: 160 18% 18%;
-    --input: 160 18% 18%;
-    --ring: 152 55% 42%;
-
-    --sidebar-background: 160 25% 8%;
-    --sidebar-foreground: 150 12% 90%;
-    --sidebar-primary: 152 55% 42%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 160 20% 14%;
-    --sidebar-accent-foreground: 150 12% 90%;
-    --sidebar-border: 160 18% 14%;
-    --sidebar-ring: 152 55% 42%;
+    --border: 150 30% 14%;
+    --input: 150 30% 14%;
+    --ring: 142 70% 55%;
+    --sidebar-background: 150 35% 5%;
+    --sidebar-foreground: 140 60% 92%;
+    --sidebar-primary: 142 70% 55%;
+    --sidebar-primary-foreground: 150 40% 4%;
+    --sidebar-accent: 150 30% 10%;
+    --sidebar-accent-foreground: 140 60% 92%;
+    --sidebar-border: 150 30% 12%;
+    --sidebar-ring: 142 70% 55%;
   }
 }
 
@@ -134,21 +125,31 @@
     box-shadow: var(--shadow-elevated);
   }
   .glass {
-    backdrop-filter: blur(16px) saturate(180%);
-    -webkit-backdrop-filter: blur(16px) saturate(180%);
-    background: hsl(150 15% 99% / 0.75);
-    border: 1px solid hsl(150 12% 87% / 0.4);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    background: hsl(150 35% 7% / 0.7);
+    border: 1px solid hsl(150 30% 14% / 0.5);
   }
   .glass-dark {
-    backdrop-filter: blur(16px) saturate(180%);
-    -webkit-backdrop-filter: blur(16px) saturate(180%);
-    background: hsl(160 25% 6% / 0.65);
-    border: 1px solid hsl(160 18% 18% / 0.4);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    background: hsl(150 40% 4% / 0.8);
+    border: 1px solid hsl(150 30% 14% / 0.3);
   }
   .text-gradient {
     background: var(--gradient-glow);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+  }
+  .glow-ring {
+    box-shadow: 0 0 0 1px hsl(142 70% 55% / 0.2), 0 0 20px -4px hsl(142 70% 55% / 0.3);
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 }
