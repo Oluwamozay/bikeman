@@ -9,6 +9,9 @@ import Auth from "./pages/Auth";
 import DriverOnboarding from "./pages/DriverOnboarding";
 import Marketplace from "./pages/Marketplace";
 import BikeShop from "./pages/BikeShop";
+import Shop from "./pages/Shop";
+import Trade from "./pages/Trade";
+import Ride from "./pages/Ride";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -26,6 +29,9 @@ const App = () => (
             <Route path="/driver-onboarding" element={<DriverOnboarding />} />
             <Route path="/marketplace" element={<Marketplace />} />
             <Route path="/bike-shop" element={<BikeShop />} />
+            <Route path="/shop" element={<Shop />} />
+            <Route path="/trade" element={<Trade />} />
+            <Route path="/ride" element={<Ride />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
