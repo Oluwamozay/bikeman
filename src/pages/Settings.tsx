@@ -168,7 +168,7 @@ const Settings = () => {
     const newUrl = urlData.publicUrl + "?t=" + Date.now();
     setAvatarUrl(newUrl);
 
-    await supabase.from("profiles").update({ avatar_url: newUrl, updated_at: new Date().toISOString() } as any).eq("user_id", user.id);
+    await (supabase.from as any)("profiles").update({ avatar_url: newUrl, updated_at: new Date().toISOString() } as any).eq("user_id", user.id);
     setUploading(false);
     toast.success("Profile photo updated!");
   };
@@ -177,12 +177,12 @@ const Settings = () => {
     if (!user) return;
     setSaving(true);
     try {
-      const { data } = await supabase.from("profiles").select("id").eq("user_id", user.id).maybeSingle();
+      const { data } = await (supabase.from as any)("profiles").select("id").eq("user_id", user.id).maybeSingle();
       const payload = { display_name: displayName, phone, bio, updated_at: new Date().toISOString() };
       if (data) {
-        await supabase.from("profiles").update(payload as any).eq("user_id", user.id);
+        await (supabase.from as any)("profiles").update(payload as any).eq("user_id", user.id);
       } else {
-        await supabase.from("profiles").insert({ user_id: user.id, ...payload } as any);
+        await (supabase.from as any)("profiles").insert({ user_id: user.id, ...payload } as any);
       }
       toast.success("Profile saved!");
     } catch {
