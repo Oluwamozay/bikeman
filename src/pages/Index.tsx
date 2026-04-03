@@ -5,6 +5,7 @@ import { Bike, ArrowRight, ShoppingBag, Repeat2, Car, LogIn, LogOut, Users, Tren
 import { useAuth } from "@/contexts/AuthContext";
 import SocialLinks from "@/components/SocialLinks";
 import InstallPrompt from "@/components/InstallPrompt";
+import ThemeToggle from "@/components/ThemeToggle";
 
 const stats = [
   { label: "Active Riders", value: "2,400+", icon: Users },
