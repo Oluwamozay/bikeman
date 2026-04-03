@@ -13,6 +13,7 @@ import BikeShop from "./pages/BikeShop";
 import Shop from "./pages/Shop";
 import Trade from "./pages/Trade";
 import Ride from "./pages/Ride";
+import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -33,6 +34,7 @@ const App = () => (
             <Route path="/shop" element={<Shop />} />
             <Route path="/trade" element={<Trade />} />
             <Route path="/ride" element={<Ride />} />
+            <Route path="/settings" element={<Settings />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
