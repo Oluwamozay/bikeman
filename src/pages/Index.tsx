@@ -29,7 +29,8 @@ const Index = () => {
       <div className="absolute bottom-0 right-0 w-[300px] h-[300px] rounded-full bg-primary/5 blur-[80px] pointer-events-none" />
 
       {/* Auth button */}
-      <div className="absolute top-4 right-4 z-20">
+      <div className="absolute top-4 right-4 z-20 flex items-center gap-2">
+        <ThemeToggle />
         {user ? (
           <div className="flex items-center gap-2">
             <span className="text-xs text-muted-foreground truncate max-w-[120px]">{user.email}</span>
