@@ -9,7 +9,6 @@ import BikeShop from "@/pages/BikeShop";
 import Shop from "@/pages/Shop";
 import Trade from "@/pages/Trade";
 import Ride from "@/pages/Ride";
-import Settings from "@/pages/Settings";
 import NotFound from "@/pages/NotFound";
 
 const pages = [
@@ -21,7 +20,6 @@ const pages = [
   { path: "/shop", element: <Shop /> },
   { path: "/trade", element: <Trade /> },
   { path: "/ride", element: <Ride /> },
-  { path: "/settings", element: <Settings /> },
   { path: "*", element: <NotFound /> },
 ];
 
