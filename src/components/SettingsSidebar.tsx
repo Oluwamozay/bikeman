@@ -494,13 +494,19 @@ const SettingsSidebar = ({ open, onClose }: SettingsSidebarProps) => {
               className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm"
             />
 
-            {/* Sidebar panel */}
+            {/* Sidebar panel — swipe right to close */}
             <motion.div
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", damping: 28, stiffness: 300 }}
-              className="fixed top-0 right-0 bottom-0 z-50 w-[85%] max-w-[360px] bg-background border-l border-border/30 shadow-elevated flex flex-col"
+              drag="x"
+              dragConstraints={{ left: 0, right: 0 }}
+              dragElastic={{ left: 0, right: 0.5 }}
+              onDragEnd={(_, info) => {
+                if (info.offset.x > 80 || info.velocity.x > 300) onClose();
+              }}
+              className="fixed top-0 right-0 bottom-0 z-50 w-[85%] max-w-[360px] bg-background border-l border-border/30 shadow-elevated flex flex-col touch-pan-y"
             >
               {/* Header */}
               <div className="flex items-center justify-between px-4 pt-5 pb-3">
