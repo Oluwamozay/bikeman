@@ -8,6 +8,7 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import BottomNav from "@/components/BottomNav";
 import SplashScreen from "@/components/SplashScreen";
 import AnimatedRoutes from "@/components/AnimatedRoutes";
+import SettingsSidebar from "@/components/SettingsSidebar";
 
 const queryClient = new QueryClient();
 
@@ -16,6 +17,7 @@ const App = () => {
     const seen = sessionStorage.getItem("splash_seen");
     return !seen;
   });
+  const [settingsOpen, setSettingsOpen] = useState(false);
 
   useEffect(() => {
     if (showSplash) {
@@ -36,7 +38,8 @@ const App = () => {
           <Sonner />
           <BrowserRouter>
             <AnimatedRoutes />
-            <BottomNav />
+            <BottomNav onSettingsOpen={() => setSettingsOpen(true)} />
+            <SettingsSidebar open={settingsOpen} onClose={() => setSettingsOpen(false)} />
           </BrowserRouter>
         </TooltipProvider>
       </AuthProvider>

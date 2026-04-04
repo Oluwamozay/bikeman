@@ -7,27 +7,37 @@ const tabs = [
   { icon: ShoppingBag, label: "Shop", path: "/shop" },
   { icon: Repeat2, label: "Trade", path: "/trade" },
   { icon: Car, label: "Ride", path: "/ride" },
-  { icon: Settings, label: "Settings", path: "/settings" },
+  { icon: Settings, label: "Settings", path: "__settings__" },
 ];
 
-const BottomNav = () => {
+interface BottomNavProps {
+  onSettingsOpen?: () => void;
+}
+
+const BottomNav = ({ onSettingsOpen }: BottomNavProps) => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Hide on auth & onboarding pages
   const hidden = ["/auth", "/driver-onboarding"].includes(location.pathname);
   if (hidden) return null;
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 glass-dark border-t border-border/30 safe-area-bottom">
+    <nav className="fixed bottom-0 left-0 right-0 z-40 glass-dark border-t border-border/30 safe-area-bottom">
       <div className="max-w-md mx-auto flex items-center justify-around h-16 px-2">
         {tabs.map(({ icon: Icon, label, path }) => {
-          const active = location.pathname === path;
+          const isSettings = path === "__settings__";
+          const active = !isSettings && location.pathname === path;
           return (
             <motion.button
               key={path}
               whileTap={{ scale: 0.9 }}
-              onClick={() => navigate(path)}
+              onClick={() => {
+                if (isSettings) {
+                  onSettingsOpen?.();
+                } else {
+                  navigate(path);
+                }
+              }}
               className={`flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl transition-all duration-300 ${
                 active ? "text-primary" : "text-muted-foreground hover:text-foreground"
               }`}
