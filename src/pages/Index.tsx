@@ -1,11 +1,12 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { Bike, ArrowRight, ShoppingBag, Repeat2, Car, LogIn, LogOut, Users, TrendingUp, Star, Shield, Zap } from "lucide-react";
+import { Bike, ArrowRight, ShoppingBag, Repeat2, Car, LogIn, LogOut, Users, TrendingUp, Star, Shield, Zap, ChevronLeft, ChevronRight, Quote, Search, MapPin, CheckCircle } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import SocialLinks from "@/components/SocialLinks";
 import InstallPrompt from "@/components/InstallPrompt";
 import ThemeToggle from "@/components/ThemeToggle";
+import { useState, useRef, useEffect } from "react";
 
 const stats = [
   { label: "Active Riders", value: "2,400+", icon: Users },
@@ -18,12 +19,41 @@ const features = [
   { icon: Car, label: "Ride", desc: "Book a ride now", path: "/ride", color: "from-primary/20 to-primary/5" },
 ];
 
+const howItWorks = [
+  { step: "01", icon: Search, title: "Browse", desc: "Find bikes, riders, or deals on our platform" },
+  { step: "02", icon: CheckCircle, title: "Connect", desc: "Verify your identity and match with sellers or drivers" },
+  { step: "03", icon: MapPin, title: "Go", desc: "Complete your trade or start your ride instantly" },
+];
+
+const testimonials = [
+  { name: "Chidi A.", role: "Bike Trader", text: "Ocada Connect made selling my old bike so easy. Got a fair deal within 2 days!", avatar: "C" },
+  { name: "Amina K.", role: "Daily Rider", text: "I use the ride feature every day. Fast, reliable, and the drivers are verified.", avatar: "A" },
+  { name: "Tunde O.", role: "Bike Dealer", text: "My shop sales doubled since listing on Ocada. The platform is a game-changer!", avatar: "T" },
+  { name: "Ngozi E.", role: "Student", text: "Affordable rides to campus. The app is super smooth and easy to use.", avatar: "N" },
+];
+
+const featuredBikes = [
+  { name: "Bajaj Boxer 150", price: "₦485,000", tag: "Popular", img: "🏍️" },
+  { name: "Honda ACE 125", price: "₦620,000", tag: "New", img: "🏍️" },
+  { name: "TVS Apache 160", price: "₦750,000", tag: "Premium", img: "🏍️" },
+  { name: "Suzuki GN 125", price: "₦520,000", tag: "Best Value", img: "🏍️" },
+  { name: "Yamaha YBR 125", price: "₦580,000", tag: "Trending", img: "🏍️" },
+];
+
 const Index = () => {
   const navigate = useNavigate();
   const { user, signOut } = useAuth();
+  const [carouselIndex, setCarouselIndex] = useState(0);
+  const carouselRef = useRef<HTMLDivElement>(null);
+
+  const scrollCarousel = (dir: number) => {
+    const next = Math.max(0, Math.min(carouselIndex + dir, featuredBikes.length - 1));
+    setCarouselIndex(next);
+    carouselRef.current?.children[next]?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+  };
 
   return (
-    <div className="min-h-screen bg-background relative overflow-hidden">
+    <div className="min-h-screen bg-background relative overflow-x-hidden">
       {/* Ambient glow effects */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] rounded-full bg-primary/8 blur-[120px] pointer-events-none" />
       <div className="absolute bottom-0 right-0 w-[300px] h-[300px] rounded-full bg-primary/5 blur-[80px] pointer-events-none" />
@@ -51,13 +81,12 @@ const Index = () => {
         )}
       </div>
 
-      <div className="relative z-10 max-w-md mx-auto px-5 py-8 pb-24 min-h-screen flex flex-col">
+      <div className="relative z-10 max-w-md mx-auto px-5 py-8 pb-24">
         {/* Hero */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="flex-1 flex flex-col justify-center"
         >
           {/* Logo */}
           <motion.div
@@ -155,7 +184,7 @@ const Index = () => {
         </motion.div>
 
         {/* CTA */}
-        <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }} className="space-y-3 pb-2">
+        <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }} className="space-y-3 mb-12">
           <Button
             onClick={() => navigate("/driver-onboarding")}
             className="w-full h-14 rounded-2xl text-base font-bold gradient-primary text-primary-foreground shadow-glow hover:opacity-90 transition-all duration-300"
@@ -164,6 +193,147 @@ const Index = () => {
             <ArrowRight className="h-4 w-4 ml-1.5" />
           </Button>
         </motion.div>
+
+        {/* ── How It Works ── */}
+        <motion.section
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.5 }}
+          className="mb-14"
+        >
+          <h2 className="text-xl font-bold mb-1">How It Works</h2>
+          <p className="text-xs text-muted-foreground mb-6">Get started in 3 simple steps</p>
+          <div className="space-y-4">
+            {howItWorks.map((item, i) => (
+              <motion.div
+                key={item.step}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="flex items-start gap-4 p-4 rounded-2xl glass border border-border/40 hover:glow-ring transition-all duration-300"
+              >
+                <div className="w-10 h-10 rounded-xl gradient-primary flex items-center justify-center text-primary-foreground text-xs font-bold shrink-0">
+                  {item.step}
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-1">
+                    <item.icon className="h-3.5 w-3.5 text-primary" />
+                    <h3 className="text-sm font-bold">{item.title}</h3>
+                  </div>
+                  <p className="text-[11px] text-muted-foreground leading-relaxed">{item.desc}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.section>
+
+        {/* ── Featured Bikes Carousel ── */}
+        <motion.section
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.5 }}
+          className="mb-14"
+        >
+          <div className="flex items-center justify-between mb-5">
+            <div>
+              <h2 className="text-xl font-bold">Featured Bikes</h2>
+              <p className="text-xs text-muted-foreground">Swipe to explore top picks</p>
+            </div>
+            <div className="flex gap-1.5">
+              <button onClick={() => scrollCarousel(-1)} className="w-8 h-8 rounded-lg glass border border-border/40 flex items-center justify-center hover:glow-ring transition-all">
+                <ChevronLeft className="h-3.5 w-3.5" />
+              </button>
+              <button onClick={() => scrollCarousel(1)} className="w-8 h-8 rounded-lg glass border border-border/40 flex items-center justify-center hover:glow-ring transition-all">
+                <ChevronRight className="h-3.5 w-3.5" />
+              </button>
+            </div>
+          </div>
+          <div
+            ref={carouselRef}
+            className="flex gap-3 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-2 -mx-1 px-1"
+            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+          >
+            {featuredBikes.map((bike, i) => (
+              <motion.div
+                key={bike.name}
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.05 }}
+                whileTap={{ scale: 0.97 }}
+                onClick={() => navigate("/shop")}
+                className="min-w-[160px] snap-center rounded-2xl glass border border-border/40 p-4 flex flex-col items-center gap-2 cursor-pointer hover:glow-ring transition-all duration-300"
+              >
+                <div className="text-4xl mb-1">{bike.img}</div>
+                <span className="px-2 py-0.5 rounded-full bg-primary/15 text-primary text-[9px] font-bold">{bike.tag}</span>
+                <h3 className="text-xs font-bold text-center leading-tight">{bike.name}</h3>
+                <p className="text-sm font-bold text-primary">{bike.price}</p>
+              </motion.div>
+            ))}
+          </div>
+        </motion.section>
+
+        {/* ── Testimonials ── */}
+        <motion.section
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.5 }}
+          className="mb-14"
+        >
+          <h2 className="text-xl font-bold mb-1">What Riders Say</h2>
+          <p className="text-xs text-muted-foreground mb-6">Real stories from our community</p>
+          <div className="space-y-3">
+            {testimonials.map((t, i) => (
+              <motion.div
+                key={t.name}
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.08 }}
+                className="rounded-2xl glass border border-border/40 p-4 hover:glow-ring transition-all duration-300"
+              >
+                <Quote className="h-4 w-4 text-primary/40 mb-2" />
+                <p className="text-[11px] text-muted-foreground leading-relaxed mb-3">"{t.text}"</p>
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-full gradient-primary flex items-center justify-center text-xs font-bold text-primary-foreground">
+                    {t.avatar}
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold">{t.name}</p>
+                    <p className="text-[9px] text-muted-foreground">{t.role}</p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.section>
+
+        {/* ── Download / Final CTA ── */}
+        <motion.section
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.5 }}
+          className="mb-10"
+        >
+          <div className="rounded-2xl gradient-primary p-6 text-center">
+            <Bike className="h-8 w-8 text-primary-foreground mx-auto mb-3" />
+            <h2 className="text-lg font-bold text-primary-foreground mb-1">Ready to Ride?</h2>
+            <p className="text-xs text-primary-foreground/80 mb-4">Join thousands of riders across Nigeria</p>
+            <Button
+              onClick={() => navigate(user ? "/ride" : "/auth")}
+              variant="secondary"
+              className="rounded-xl font-bold h-11 px-8"
+            >
+              {user ? "Book a Ride" : "Get Started"}
+              <ArrowRight className="h-4 w-4 ml-1.5" />
+            </Button>
+          </div>
+        </motion.section>
 
         <SocialLinks />
       </div>
