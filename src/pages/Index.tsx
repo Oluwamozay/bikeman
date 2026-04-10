@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { Bike, ArrowRight, ShoppingBag, Repeat2, Car, LogIn, LogOut, Users, TrendingUp, Star, Shield, Zap, ChevronLeft, ChevronRight, Quote, Search, MapPin, CheckCircle, RefreshCw } from "lucide-react";
+import { Bike, ArrowRight, ShoppingBag, Repeat2, Car, LogIn, LogOut, Users, TrendingUp, Star, Shield, Zap, ChevronLeft, ChevronRight, Quote, Search, MapPin, CheckCircle, RefreshCw, ArrowUpDown, Clock } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import SocialLinks from "@/components/SocialLinks";
 import InstallPrompt from "@/components/InstallPrompt";
@@ -12,6 +12,9 @@ import { useFavorites } from "@/hooks/useFavorites";
 import { Heart, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Slider } from "@/components/ui/slider";
+import { useRecentlyViewed } from "@/hooks/useRecentlyViewed";
+
+type SortOption = "default" | "price-asc" | "price-desc" | "name";
 
 const stats = [
   { label: "Active Riders", value: "2,400+", icon: Users },
@@ -51,6 +54,8 @@ const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [priceRange, setPriceRange] = useState<[number, number]>([300000, 900000]);
   const { favorites, toggleFavorite, isFavorite } = useFavorites();
+  const { recentIds, addViewed } = useRecentlyViewed();
+  const [sortBy, setSortBy] = useState<SortOption>("default");
 
   const filteredBikes = useMemo(() => {
     let bikes = activeTag === "All" ? featuredBikes : featuredBikes.filter((b) => b.tag === activeTag);
@@ -63,8 +68,15 @@ const Index = () => {
       );
     }
     bikes = bikes.filter((b) => b.priceNum >= priceRange[0] && b.priceNum <= priceRange[1]);
+    if (sortBy === "price-asc") bikes = [...bikes].sort((a, b) => a.priceNum - b.priceNum);
+    else if (sortBy === "price-desc") bikes = [...bikes].sort((a, b) => b.priceNum - a.priceNum);
+    else if (sortBy === "name") bikes = [...bikes].sort((a, b) => a.name.localeCompare(b.name));
     return bikes;
-  }, [activeTag, searchQuery, priceRange]);
+  }, [activeTag, searchQuery, priceRange, sortBy]);
+
+  const recentBikes = useMemo(() => {
+    return recentIds.map((id) => featuredBikes.find((b) => b.id === id)).filter(Boolean);
+  }, [recentIds]);
 
   const scrollCarousel = (dir: number) => {
     const next = Math.max(0, Math.min(carouselIndex + dir, filteredBikes.length - 1));
