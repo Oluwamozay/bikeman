@@ -1,7 +1,8 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowLeft, ShoppingCart, Gauge, Zap, Fuel, Weight, Droplets, Activity, MessageCircle, GitCompareArrows } from "lucide-react";
+import { ArrowLeft, ShoppingCart, Gauge, Zap, Fuel, Weight, Droplets, Activity, MessageCircle, GitCompareArrows, Heart } from "lucide-react";
+import { useFavorites } from "@/hooks/useFavorites";
 import { Button } from "@/components/ui/button";
 import { featuredBikes } from "@/data/bikes";
 import ImageViewer from "@/components/ImageViewer";
@@ -21,6 +22,7 @@ const BikeDetail = () => {
   const bike = featuredBikes.find((b) => b.id === id);
   const [viewerOpen, setViewerOpen] = useState(false);
   const [viewerIndex, setViewerIndex] = useState(0);
+  const { toggleFavorite, isFavorite } = useFavorites();
 
   if (!bike) {
     return (
@@ -57,6 +59,12 @@ const BikeDetail = () => {
         <span className="ml-auto px-2.5 py-1 rounded-full bg-primary/15 text-primary text-[10px] font-bold">
           {bike.tag}
         </span>
+        <button
+          onClick={() => toggleFavorite(bike.id)}
+          className="w-9 h-9 rounded-xl glass border border-border/40 flex items-center justify-center hover:glow-ring transition-all"
+        >
+          <Heart className={`h-4 w-4 transition-colors ${isFavorite(bike.id) ? "fill-red-500 text-red-500" : ""}`} />
+        </button>
       </div>
 
       <div className="max-w-md mx-auto px-5">
