@@ -16,6 +16,7 @@ import { useRecentlyViewed } from "@/hooks/useRecentlyViewed";
 import { useToast } from "@/hooks/use-toast";
 import NotificationBell from "@/components/NotificationBell";
 import FloatingParticles from "@/components/FloatingParticles";
+import SEOHead from "@/components/SEOHead";
 
 type SortOption = "default" | "price-asc" | "price-desc" | "name";
 
@@ -142,6 +143,10 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background mesh-bg relative overflow-x-hidden">
+      <SEOHead
+        title="Ocada Connect — Nigeria's Smartest Bike Platform"
+        description="Shop, trade, and ride motorcycles across Nigeria. Browse bikes from verified sellers, book rides, and connect with the rider community."
+      />
       <FloatingParticles />
       {/* Pull to refresh indicator */}
       <motion.div

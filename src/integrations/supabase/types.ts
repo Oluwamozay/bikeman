@@ -113,6 +113,33 @@ export type Database = {
         }
         Relationships: []
       }
+      listing_analytics: {
+        Row: {
+          bike_id: string
+          created_at: string
+          event_type: string
+          id: string
+          referrer: string | null
+          user_id: string | null
+        }
+        Insert: {
+          bike_id: string
+          created_at?: string
+          event_type?: string
+          id?: string
+          referrer?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          bike_id?: string
+          created_at?: string
+          event_type?: string
+          id?: string
+          referrer?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       messages: {
         Row: {
           bike_id: string | null
