@@ -1,11 +1,12 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowLeft, ShoppingCart, Gauge, Zap, Fuel, Weight, Droplets, Activity, MessageCircle, GitCompareArrows, Heart } from "lucide-react";
+import { ArrowLeft, ShoppingCart, Gauge, Zap, Fuel, Weight, Droplets, Activity, MessageCircle, GitCompareArrows, Heart, TrendingDown } from "lucide-react";
 import { useFavorites } from "@/hooks/useFavorites";
 import { Button } from "@/components/ui/button";
 import { featuredBikes } from "@/data/bikes";
 import ImageViewer from "@/components/ImageViewer";
+import FinancingCalculator from "@/components/FinancingCalculator";
 
 const specIcons: Record<string, React.ElementType> = {
   Engine: Gauge,
@@ -93,7 +94,18 @@ const BikeDetail = () => {
           className="mb-6"
         >
           <h2 className="text-2xl font-bold mb-1">{bike.name}</h2>
-          <p className="text-xl font-bold text-primary">{bike.price}</p>
+          <div className="flex items-center gap-2.5">
+            <p className="text-xl font-bold text-primary">{bike.price}</p>
+            {bike.originalPriceNum && (
+              <>
+                <p className="text-sm text-muted-foreground line-through">{bike.originalPrice}</p>
+                <span className="flex items-center gap-0.5 px-2 py-0.5 rounded-full bg-green-500/15 text-green-600 dark:text-green-400 text-[10px] font-bold">
+                  <TrendingDown className="h-3 w-3" />
+                  {Math.round(((bike.originalPriceNum - bike.priceNum) / bike.originalPriceNum) * 100)}% off
+                </span>
+              </>
+            )}
+          </div>
         </motion.div>
 
         {/* Description */}
@@ -135,6 +147,9 @@ const BikeDetail = () => {
             })}
           </div>
         </motion.div>
+
+        {/* Financing Calculator */}
+        <FinancingCalculator bikePrice={bike.priceNum} bikeName={bike.name} />
 
         {/* Gallery */}
         <motion.div
