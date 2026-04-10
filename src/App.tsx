@@ -9,6 +9,7 @@ import BottomNav from "@/components/BottomNav";
 import SplashScreen from "@/components/SplashScreen";
 import AnimatedRoutes from "@/components/AnimatedRoutes";
 import SettingsSidebar from "@/components/SettingsSidebar";
+import AIChatbot from "@/components/AIChatbot";
 
 const queryClient = new QueryClient();
 
@@ -40,6 +41,7 @@ const App = () => {
             <AnimatedRoutes />
             <BottomNav onSettingsOpen={() => setSettingsOpen(true)} />
             <SettingsSidebar open={settingsOpen} onClose={() => setSettingsOpen(false)} />
+            <AIChatbot />
           </BrowserRouter>
         </TooltipProvider>
       </AuthProvider>
