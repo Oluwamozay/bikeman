@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowLeft, Phone, ShoppingCart, Gauge, Zap, Fuel, Weight, Droplets, Speedometer } from "lucide-react";
+import { ArrowLeft, Phone, ShoppingCart, Gauge, Zap, Fuel, Weight, Droplets, Activity } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { featuredBikes } from "@/data/bikes";
 
@@ -10,7 +10,7 @@ const specIcons: Record<string, React.ElementType> = {
   Mileage: Fuel,
   Weight: Weight,
   Tank: Droplets,
-  "Top Speed": Speedometer,
+  "Top Speed": Activity,
 };
 
 const BikeDetail = () => {
