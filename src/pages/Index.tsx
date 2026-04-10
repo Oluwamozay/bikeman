@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { Bike, ArrowRight, ShoppingBag, Repeat2, Car, LogIn, LogOut, Users, TrendingUp, Star, Shield, Zap, ChevronLeft, ChevronRight, Quote, Search, MapPin, CheckCircle, RefreshCw } from "lucide-react";
+import { Bike, ArrowRight, ShoppingBag, Repeat2, Car, LogIn, LogOut, Users, TrendingUp, Star, Shield, Zap, ChevronLeft, ChevronRight, Quote, Search, MapPin, CheckCircle, RefreshCw, Clock } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import SocialLinks from "@/components/SocialLinks";
 import InstallPrompt from "@/components/InstallPrompt";
@@ -12,6 +12,9 @@ import { useFavorites } from "@/hooks/useFavorites";
 import { Heart, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Slider } from "@/components/ui/slider";
+import { useRecentlyViewed } from "@/hooks/useRecentlyViewed";
+
+type SortOption = "default" | "price-asc" | "price-desc" | "name";
 
 const stats = [
   { label: "Active Riders", value: "2,400+", icon: Users },
@@ -51,6 +54,8 @@ const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [priceRange, setPriceRange] = useState<[number, number]>([300000, 900000]);
   const { favorites, toggleFavorite, isFavorite } = useFavorites();
+  const { recentIds, addViewed } = useRecentlyViewed();
+  const [sortBy, setSortBy] = useState<SortOption>("default");
 
   const filteredBikes = useMemo(() => {
     let bikes = activeTag === "All" ? featuredBikes : featuredBikes.filter((b) => b.tag === activeTag);
@@ -63,8 +68,15 @@ const Index = () => {
       );
     }
     bikes = bikes.filter((b) => b.priceNum >= priceRange[0] && b.priceNum <= priceRange[1]);
+    if (sortBy === "price-asc") bikes = [...bikes].sort((a, b) => a.priceNum - b.priceNum);
+    else if (sortBy === "price-desc") bikes = [...bikes].sort((a, b) => b.priceNum - a.priceNum);
+    else if (sortBy === "name") bikes = [...bikes].sort((a, b) => a.name.localeCompare(b.name));
     return bikes;
-  }, [activeTag, searchQuery, priceRange]);
+  }, [activeTag, searchQuery, priceRange, sortBy]);
+
+  const recentBikes = useMemo(() => {
+    return recentIds.map((id) => featuredBikes.find((b) => b.id === id)).filter(Boolean);
+  }, [recentIds]);
 
   const scrollCarousel = (dir: number) => {
     const next = Math.max(0, Math.min(carouselIndex + dir, filteredBikes.length - 1));
@@ -334,6 +346,28 @@ const Index = () => {
             />
           </div>
 
+          {/* Sort Options */}
+          <div className="flex gap-1.5 overflow-x-auto pb-2 mb-1" style={{ scrollbarWidth: "none" }}>
+            {([
+              { key: "default", label: "Default" },
+              { key: "price-asc", label: "Price ↑" },
+              { key: "price-desc", label: "Price ↓" },
+              { key: "name", label: "A–Z" },
+            ] as { key: SortOption; label: string }[]).map((s) => (
+              <button
+                key={s.key}
+                onClick={() => setSortBy(s.key)}
+                className={`px-3 py-1 rounded-full text-[10px] font-bold whitespace-nowrap transition-all duration-200 ${
+                  sortBy === s.key
+                    ? "bg-primary/20 text-primary border border-primary/30"
+                    : "glass border border-border/40 text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                {s.label}
+              </button>
+            ))}
+          </div>
+
           <div className="flex items-center justify-between mb-3">
             <div>
               <h2 className="text-xl font-bold">Featured Bikes</h2>
@@ -387,7 +421,7 @@ const Index = () => {
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: i * 0.05 }}
                 whileTap={{ scale: 0.97 }}
-                onClick={() => navigate(`/bike/${bike.id}`)}
+                onClick={() => { addViewed(bike.id); navigate(`/bike/${bike.id}`); }}
                 className="relative min-w-[160px] snap-center rounded-2xl glass border border-border/40 p-4 flex flex-col items-center gap-2 cursor-pointer hover:glow-ring transition-all duration-300"
               >
                 <button
@@ -404,6 +438,36 @@ const Index = () => {
             ))}
           </div>
         </motion.section>
+
+        {/* ── Recently Viewed ── */}
+        {recentBikes.length > 0 && (
+          <motion.section
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.5 }}
+            className="mb-14"
+          >
+            <div className="flex items-center gap-2 mb-3">
+              <Clock className="h-4 w-4 text-primary" />
+              <h2 className="text-xl font-bold">Recently Viewed</h2>
+            </div>
+            <div className="flex gap-3 overflow-x-auto pb-2 -mx-1 px-1" style={{ scrollbarWidth: "none" }}>
+              {recentBikes.map((bike) => (
+                <motion.div
+                  key={bike!.id}
+                  whileTap={{ scale: 0.97 }}
+                  onClick={() => navigate(`/bike/${bike!.id}`)}
+                  className="min-w-[130px] snap-center rounded-2xl glass border border-border/40 p-3 flex flex-col items-center gap-1.5 cursor-pointer hover:glow-ring transition-all duration-300"
+                >
+                  <img src={bike!.img} alt={bike!.name} className="w-16 h-16 object-contain" loading="lazy" />
+                  <h3 className="text-[11px] font-bold text-center leading-tight">{bike!.name}</h3>
+                  <p className="text-xs font-bold text-primary">{bike!.price}</p>
+                </motion.div>
+              ))}
+            </div>
+          </motion.section>
+        )}
 
         {/* ── Testimonials ── */}
         <motion.section
