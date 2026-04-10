@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { Bike, ArrowRight, ShoppingBag, Repeat2, Car, LogIn, LogOut, Users, TrendingUp, Star, Shield, Zap, ChevronLeft, ChevronRight, Quote, Search, MapPin, CheckCircle, RefreshCw, ArrowUpDown, Clock } from "lucide-react";
+import { Bike, ArrowRight, ShoppingBag, Repeat2, Car, LogIn, LogOut, Users, TrendingUp, Star, Shield, Zap, ChevronLeft, ChevronRight, Quote, Search, MapPin, CheckCircle, RefreshCw, Clock } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import SocialLinks from "@/components/SocialLinks";
 import InstallPrompt from "@/components/InstallPrompt";
@@ -346,6 +346,28 @@ const Index = () => {
             />
           </div>
 
+          {/* Sort Options */}
+          <div className="flex gap-1.5 overflow-x-auto pb-2 mb-1" style={{ scrollbarWidth: "none" }}>
+            {([
+              { key: "default", label: "Default" },
+              { key: "price-asc", label: "Price ↑" },
+              { key: "price-desc", label: "Price ↓" },
+              { key: "name", label: "A–Z" },
+            ] as { key: SortOption; label: string }[]).map((s) => (
+              <button
+                key={s.key}
+                onClick={() => setSortBy(s.key)}
+                className={`px-3 py-1 rounded-full text-[10px] font-bold whitespace-nowrap transition-all duration-200 ${
+                  sortBy === s.key
+                    ? "bg-primary/20 text-primary border border-primary/30"
+                    : "glass border border-border/40 text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                {s.label}
+              </button>
+            ))}
+          </div>
+
           <div className="flex items-center justify-between mb-3">
             <div>
               <h2 className="text-xl font-bold">Featured Bikes</h2>
@@ -399,7 +421,7 @@ const Index = () => {
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: i * 0.05 }}
                 whileTap={{ scale: 0.97 }}
-                onClick={() => navigate(`/bike/${bike.id}`)}
+                onClick={() => { addViewed(bike.id); navigate(`/bike/${bike.id}`); }}
                 className="relative min-w-[160px] snap-center rounded-2xl glass border border-border/40 p-4 flex flex-col items-center gap-2 cursor-pointer hover:glow-ring transition-all duration-300"
               >
                 <button
