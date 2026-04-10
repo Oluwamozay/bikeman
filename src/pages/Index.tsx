@@ -51,6 +51,10 @@ const Index = () => {
   const { user, signOut } = useAuth();
   const [carouselIndex, setCarouselIndex] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const pullY = useMotionValue(0);
+  const pullRotate = useTransform(pullY, [0, 80], [0, 360]);
+  const pullOpacity = useTransform(pullY, [0, 40, 80], [0, 0.6, 1]);
 
   const scrollCarousel = (dir: number) => {
     const next = Math.max(0, Math.min(carouselIndex + dir, featuredBikes.length - 1));
@@ -58,8 +62,27 @@ const Index = () => {
     carouselRef.current?.children[next]?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
   };
 
+  const handlePullRelease = useCallback((_: any, info: { offset: { y: number } }) => {
+    if (info.offset.y > 80) {
+      setIsRefreshing(true);
+      setTimeout(() => {
+        setIsRefreshing(false);
+      }, 1500);
+    }
+  }, []);
+
   return (
     <div className="min-h-screen bg-background relative overflow-x-hidden">
+      {/* Pull to refresh indicator */}
+      <motion.div
+        className="absolute top-2 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2 pointer-events-none"
+        initial={{ opacity: 0, y: -20 }}
+        animate={isRefreshing ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
+        transition={{ duration: 0.3 }}
+      >
+        <RefreshCw className={`h-5 w-5 text-primary ${isRefreshing ? "animate-spin" : ""}`} />
+        <span className="text-xs text-muted-foreground font-medium">Refreshing...</span>
+      </motion.div>
       {/* Ambient glow effects */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] rounded-full bg-primary/8 blur-[120px] pointer-events-none" />
       <div className="absolute bottom-0 right-0 w-[300px] h-[300px] rounded-full bg-primary/5 blur-[80px] pointer-events-none" />
