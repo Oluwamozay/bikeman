@@ -1,13 +1,16 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft, ShoppingCart, Gauge, Zap, Fuel, Weight, Droplets, Activity, MessageCircle, GitCompareArrows, Heart, TrendingDown } from "lucide-react";
 import { useFavorites } from "@/hooks/useFavorites";
+import { useListingAnalytics } from "@/hooks/useListingAnalytics";
 import { Button } from "@/components/ui/button";
 import { featuredBikes } from "@/data/bikes";
 import ImageViewer from "@/components/ImageViewer";
 import FinancingCalculator from "@/components/FinancingCalculator";
 import InsuranceEstimator from "@/components/InsuranceEstimator";
+import OptimizedImage from "@/components/OptimizedImage";
+import SEOHead from "@/components/SEOHead";
 
 const specIcons: Record<string, React.ElementType> = {
   Engine: Gauge,
@@ -25,10 +28,17 @@ const BikeDetail = () => {
   const [viewerOpen, setViewerOpen] = useState(false);
   const [viewerIndex, setViewerIndex] = useState(0);
   const { toggleFavorite, isFavorite } = useFavorites();
+  const { trackEvent } = useListingAnalytics();
+
+  // Track view on mount
+  useEffect(() => {
+    if (id) trackEvent(id, "view");
+  }, [id, trackEvent]);
 
   if (!bike) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
+        <SEOHead title="Bike Not Found — Ocada Connect" description="The requested bike listing could not be found." />
         <div className="text-center">
           <p className="text-muted-foreground mb-4">Bike not found</p>
           <Button onClick={() => navigate("/")} variant="outline">Go Home</Button>
@@ -45,10 +55,29 @@ const BikeDetail = () => {
   const openGallery = (index: number) => {
     setViewerIndex(index);
     setViewerOpen(true);
+    trackEvent(bike.id, "click");
+  };
+
+  const handleInquiry = () => {
+    trackEvent(bike.id, "inquiry");
+    window.open(whatsappUrl, "_blank");
+  };
+
+  const handleBuy = () => {
+    trackEvent(bike.id, "click");
+    navigate("/shop");
   };
 
   return (
     <div className="min-h-screen bg-background pb-24">
+      <SEOHead
+        title={`${bike.name} — ${bike.price} | Ocada Connect`}
+        description={bike.description}
+        image={bike.img}
+        url={`https://bikeman.lovable.app/bike/${bike.id}`}
+        type="product"
+      />
+
       {/* Header */}
       <div className="sticky top-0 z-20 glass border-b border-border/40 px-4 py-3 flex items-center gap-3">
         <button
@@ -70,20 +99,21 @@ const BikeDetail = () => {
       </div>
 
       <div className="max-w-md mx-auto px-5">
-        {/* Hero Image - tappable */}
+        {/* Hero Image - optimized */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.4 }}
-          className="py-8 flex justify-center cursor-pointer"
-          onClick={() => openGallery(0)}
+          className="py-8 flex justify-center"
         >
-          <img
+          <OptimizedImage
             src={bike.img}
             alt={bike.name}
-            className="w-64 h-64 object-contain drop-shadow-2xl"
             width={256}
             height={256}
+            className="w-64 h-64 drop-shadow-2xl cursor-pointer"
+            priority
+            onClick={() => openGallery(0)}
           />
         </motion.div>
 
@@ -163,19 +193,22 @@ const BikeDetail = () => {
           className="mb-8"
         >
           <h3 className="text-base font-bold mb-4">Gallery</h3>
-          <div className="flex gap-3 overflow-x-auto pb-2" style={{ scrollbarWidth: "none" }}>
+          <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
             {bike.gallery.map((img, i) => (
-              <motion.img
+              <motion.div
                 key={i}
-                src={img}
-                alt={`${bike.name} view ${i + 1}`}
-                className="w-28 h-28 object-contain rounded-xl glass border border-border/40 p-2 shrink-0 cursor-pointer"
-                loading="lazy"
-                width={112}
-                height={112}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => openGallery(i)}
-              />
+                className="shrink-0 cursor-pointer"
+              >
+                <OptimizedImage
+                  src={img}
+                  alt={`${bike.name} view ${i + 1}`}
+                  width={112}
+                  height={112}
+                  className="w-28 h-28 rounded-xl glass border border-border/40 p-2"
+                />
+              </motion.div>
             ))}
           </div>
         </motion.div>
@@ -190,7 +223,7 @@ const BikeDetail = () => {
           <div className="flex gap-3">
             <Button
               className="flex-1 h-13 rounded-2xl text-sm font-bold gradient-primary text-primary-foreground shadow-glow"
-              onClick={() => navigate("/shop")}
+              onClick={handleBuy}
             >
               <ShoppingCart className="h-4 w-4 mr-2" />
               Buy Now
@@ -198,7 +231,7 @@ const BikeDetail = () => {
             <Button
               variant="outline"
               className="h-13 rounded-2xl px-5 border-border/50 glass"
-              onClick={() => window.open(whatsappUrl, "_blank")}
+              onClick={handleInquiry}
             >
               <MessageCircle className="h-4 w-4 mr-1.5 text-green-500" />
               WhatsApp

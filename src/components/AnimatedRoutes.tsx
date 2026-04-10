@@ -14,6 +14,7 @@ import Trade from "@/pages/Trade";
 import Ride from "@/pages/Ride";
 import Messages from "@/pages/Messages";
 import Notifications from "@/pages/Notifications";
+import Analytics from "@/pages/Analytics";
 import NotFound from "@/pages/NotFound";
 
 const pages = [
@@ -30,6 +31,7 @@ const pages = [
   { path: "/ride", element: <Ride /> },
   { path: "/messages", element: <Messages /> },
   { path: "/notifications", element: <Notifications /> },
+  { path: "/analytics", element: <Analytics /> },
   { path: "*", element: <NotFound /> },
 ];
 
