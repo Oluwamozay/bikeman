@@ -92,11 +92,13 @@ const Index = () => {
       <motion.div
         className="absolute top-2 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2 pointer-events-none"
         initial={{ opacity: 0, y: -20 }}
-        animate={isRefreshing ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
+        animate={isRefreshing || pullDistance > 20 ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
         transition={{ duration: 0.3 }}
       >
-        <RefreshCw className={`h-5 w-5 text-primary ${isRefreshing ? "animate-spin" : ""}`} />
-        <span className="text-xs text-muted-foreground font-medium">Refreshing...</span>
+        <RefreshCw className={`h-5 w-5 text-primary ${isRefreshing ? "animate-spin" : ""}`} style={{ transform: !isRefreshing ? `rotate(${pullDistance * 3}deg)` : undefined }} />
+        <span className="text-xs text-muted-foreground font-medium">
+          {isRefreshing ? "Refreshing..." : pullDistance > 60 ? "Release to refresh" : "Pull to refresh"}
+        </span>
       </motion.div>
       {/* Ambient glow effects */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] rounded-full bg-primary/8 blur-[120px] pointer-events-none" />
