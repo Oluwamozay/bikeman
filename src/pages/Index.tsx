@@ -6,13 +6,8 @@ import { useAuth } from "@/contexts/AuthContext";
 import SocialLinks from "@/components/SocialLinks";
 import InstallPrompt from "@/components/InstallPrompt";
 import ThemeToggle from "@/components/ThemeToggle";
-import { useState, useRef, useCallback } from "react";
-
-import bikeBajaj from "@/assets/bike-bajaj-boxer.png";
-import bikeHonda from "@/assets/bike-honda-ace.png";
-import bikeTvs from "@/assets/bike-tvs-apache.png";
-import bikeSuzuki from "@/assets/bike-suzuki-gn.png";
-import bikeYamaha from "@/assets/bike-yamaha-ybr.png";
+import { useState, useRef, useCallback, useMemo } from "react";
+import { featuredBikes, bikeTags } from "@/data/bikes";
 
 const stats = [
   { label: "Active Riders", value: "2,400+", icon: Users },
