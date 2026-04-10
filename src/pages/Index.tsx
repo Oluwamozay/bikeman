@@ -15,6 +15,7 @@ import { Slider } from "@/components/ui/slider";
 import { useRecentlyViewed } from "@/hooks/useRecentlyViewed";
 import { useToast } from "@/hooks/use-toast";
 import NotificationBell from "@/components/NotificationBell";
+import FloatingParticles from "@/components/FloatingParticles";
 
 type SortOption = "default" | "price-asc" | "price-desc" | "name";
 
