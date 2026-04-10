@@ -1,18 +1,19 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { Bike, ArrowRight, ShoppingBag, Repeat2, Car, LogIn, LogOut, Users, TrendingUp, Star, Shield, Zap, ChevronLeft, ChevronRight, Quote, Search, MapPin, CheckCircle, RefreshCw, Clock } from "lucide-react";
+import { Bike, ArrowRight, ShoppingBag, Repeat2, Car, LogIn, LogOut, Users, TrendingUp, Star, Shield, Zap, ChevronLeft, ChevronRight, Quote, Search, MapPin, CheckCircle, RefreshCw, Clock, TrendingDown } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import SocialLinks from "@/components/SocialLinks";
 import InstallPrompt from "@/components/InstallPrompt";
 import ThemeToggle from "@/components/ThemeToggle";
-import { useState, useRef, useCallback, useMemo } from "react";
+import { useState, useRef, useCallback, useMemo, useEffect } from "react";
 import { featuredBikes, bikeTags } from "@/data/bikes";
 import { useFavorites } from "@/hooks/useFavorites";
 import { Heart, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Slider } from "@/components/ui/slider";
 import { useRecentlyViewed } from "@/hooks/useRecentlyViewed";
+import { useToast } from "@/hooks/use-toast";
 
 type SortOption = "default" | "price-asc" | "price-desc" | "name";
 
@@ -56,6 +57,29 @@ const Index = () => {
   const { favorites, toggleFavorite, isFavorite } = useFavorites();
   const { recentIds, addViewed } = useRecentlyViewed();
   const [sortBy, setSortBy] = useState<SortOption>("default");
+  const { toast } = useToast();
+
+  // Price drop alerts for favorited bikes
+  useEffect(() => {
+    const alertKey = "ocada_price_drop_alerted";
+    const alerted: string[] = JSON.parse(localStorage.getItem(alertKey) || "[]");
+    const droppedFavs = featuredBikes.filter(
+      (b) => favorites.includes(b.id) && b.originalPriceNum && !alerted.includes(b.id)
+    );
+    if (droppedFavs.length > 0) {
+      const newAlerted = [...alerted, ...droppedFavs.map((b) => b.id)];
+      localStorage.setItem(alertKey, JSON.stringify(newAlerted));
+      setTimeout(() => {
+        droppedFavs.forEach((bike) => {
+          const pct = Math.round(((bike.originalPriceNum! - bike.priceNum) / bike.originalPriceNum!) * 100);
+          toast({
+            title: `🔥 Price Drop on ${bike.name}!`,
+            description: `Now ${bike.price} (${pct}% off from ${bike.originalPrice})`,
+          });
+        });
+      }, 1500);
+    }
+  }, [favorites, toast]);
 
   const filteredBikes = useMemo(() => {
     let bikes = activeTag === "All" ? featuredBikes : featuredBikes.filter((b) => b.tag === activeTag);
@@ -431,9 +455,20 @@ const Index = () => {
                   <Heart className={`h-3.5 w-3.5 transition-colors ${isFavorite(bike.id) ? "fill-red-500 text-red-500" : "text-muted-foreground"}`} />
                 </button>
                 <img src={bike.img} alt={bike.name} className="w-24 h-24 object-contain mb-1" loading="lazy" width={96} height={96} />
+                {bike.originalPriceNum && (
+                  <span className="absolute top-2 left-2 flex items-center gap-0.5 px-1.5 py-0.5 rounded-full bg-green-500/15 text-green-600 dark:text-green-400 text-[8px] font-bold z-10">
+                    <TrendingDown className="h-2.5 w-2.5" />
+                    {Math.round(((bike.originalPriceNum - bike.priceNum) / bike.originalPriceNum) * 100)}%
+                  </span>
+                )}
                 <span className="px-2 py-0.5 rounded-full bg-primary/15 text-primary text-[9px] font-bold">{bike.tag}</span>
                 <h3 className="text-xs font-bold text-center leading-tight">{bike.name}</h3>
-                <p className="text-sm font-bold text-primary">{bike.price}</p>
+                <div className="text-center">
+                  <p className="text-sm font-bold text-primary">{bike.price}</p>
+                  {bike.originalPrice && (
+                    <p className="text-[9px] text-muted-foreground line-through">{bike.originalPrice}</p>
+                  )}
+                </div>
               </motion.div>
             ))}
           </div>

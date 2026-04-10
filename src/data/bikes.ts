@@ -21,6 +21,8 @@ export interface FeaturedBike {
   name: string;
   price: string;
   priceNum: number;
+  originalPrice?: string;
+  originalPriceNum?: number;
   tag: string;
   img: string;
   description: string;
@@ -34,6 +36,8 @@ export const featuredBikes: FeaturedBike[] = [
     name: "Bajaj Boxer 150",
     price: "₦485,000",
     priceNum: 485000,
+    originalPrice: "₦530,000",
+    originalPriceNum: 530000,
     tag: "Popular",
     img: bikeBajaj,
     description: "The Bajaj Boxer 150 is Nigeria's most trusted workhorse. Built for durability and fuel efficiency, it's the top choice for commercial riders across the country.",
@@ -70,6 +74,8 @@ export const featuredBikes: FeaturedBike[] = [
     name: "TVS Apache 160",
     price: "₦750,000",
     priceNum: 750000,
+    originalPrice: "₦820,000",
+    originalPriceNum: 820000,
     tag: "Premium",
     img: bikeTvs,
     description: "The TVS Apache 160 is a performance-oriented motorcycle with sporty design and advanced features. Ideal for riders who want power and style.",
@@ -106,6 +112,8 @@ export const featuredBikes: FeaturedBike[] = [
     name: "Yamaha YBR 125",
     price: "₦580,000",
     priceNum: 580000,
+    originalPrice: "₦620,000",
+    originalPriceNum: 620000,
     tag: "Trending",
     img: bikeYamaha,
     description: "Yamaha YBR 125 combines Yamaha's sporty DNA with everyday practicality. Smooth ride, refined engine, and a trusted brand name.",
