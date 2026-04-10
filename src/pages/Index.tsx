@@ -43,9 +43,15 @@ const Index = () => {
   const [pullDistance, setPullDistance] = useState(0);
   const touchStartY = useRef(0);
   const containerRef = useRef<HTMLDivElement>(null);
+  const [activeTag, setActiveTag] = useState("All");
+
+  const filteredBikes = useMemo(
+    () => activeTag === "All" ? featuredBikes : featuredBikes.filter((b) => b.tag === activeTag),
+    [activeTag]
+  );
 
   const scrollCarousel = (dir: number) => {
-    const next = Math.max(0, Math.min(carouselIndex + dir, featuredBikes.length - 1));
+    const next = Math.max(0, Math.min(carouselIndex + dir, filteredBikes.length - 1));
     setCarouselIndex(next);
     carouselRef.current?.children[next]?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
   };
