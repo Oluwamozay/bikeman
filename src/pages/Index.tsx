@@ -6,13 +6,8 @@ import { useAuth } from "@/contexts/AuthContext";
 import SocialLinks from "@/components/SocialLinks";
 import InstallPrompt from "@/components/InstallPrompt";
 import ThemeToggle from "@/components/ThemeToggle";
-import { useState, useRef, useCallback } from "react";
-
-import bikeBajaj from "@/assets/bike-bajaj-boxer.png";
-import bikeHonda from "@/assets/bike-honda-ace.png";
-import bikeTvs from "@/assets/bike-tvs-apache.png";
-import bikeSuzuki from "@/assets/bike-suzuki-gn.png";
-import bikeYamaha from "@/assets/bike-yamaha-ybr.png";
+import { useState, useRef, useCallback, useMemo } from "react";
+import { featuredBikes, bikeTags } from "@/data/bikes";
 
 const stats = [
   { label: "Active Riders", value: "2,400+", icon: Users },
@@ -38,13 +33,6 @@ const testimonials = [
   { name: "Ngozi E.", role: "Student", text: "Affordable rides to campus. The app is super smooth and easy to use.", avatar: "N" },
 ];
 
-const featuredBikes = [
-  { name: "Bajaj Boxer 150", price: "₦485,000", tag: "Popular", img: bikeBajaj },
-  { name: "Honda ACE 125", price: "₦620,000", tag: "New", img: bikeHonda },
-  { name: "TVS Apache 160", price: "₦750,000", tag: "Premium", img: bikeTvs },
-  { name: "Suzuki GN 125", price: "₦520,000", tag: "Best Value", img: bikeSuzuki },
-  { name: "Yamaha YBR 125", price: "₦580,000", tag: "Trending", img: bikeYamaha },
-];
 
 const Index = () => {
   const navigate = useNavigate();
@@ -55,9 +43,15 @@ const Index = () => {
   const [pullDistance, setPullDistance] = useState(0);
   const touchStartY = useRef(0);
   const containerRef = useRef<HTMLDivElement>(null);
+  const [activeTag, setActiveTag] = useState("All");
+
+  const filteredBikes = useMemo(
+    () => activeTag === "All" ? featuredBikes : featuredBikes.filter((b) => b.tag === activeTag),
+    [activeTag]
+  );
 
   const scrollCarousel = (dir: number) => {
-    const next = Math.max(0, Math.min(carouselIndex + dir, featuredBikes.length - 1));
+    const next = Math.max(0, Math.min(carouselIndex + dir, filteredBikes.length - 1));
     setCarouselIndex(next);
     carouselRef.current?.children[next]?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
   };
@@ -290,10 +284,10 @@ const Index = () => {
           transition={{ duration: 0.5 }}
           className="mb-14"
         >
-          <div className="flex items-center justify-between mb-5">
+          <div className="flex items-center justify-between mb-3">
             <div>
               <h2 className="text-xl font-bold">Featured Bikes</h2>
-              <p className="text-xs text-muted-foreground">Swipe to explore top picks</p>
+              <p className="text-xs text-muted-foreground">Tap a bike for full details</p>
             </div>
             <div className="flex gap-1.5">
               <button onClick={() => scrollCarousel(-1)} className="w-8 h-8 rounded-lg glass border border-border/40 flex items-center justify-center hover:glow-ring transition-all">
@@ -304,20 +298,37 @@ const Index = () => {
               </button>
             </div>
           </div>
+
+          {/* Category Filters */}
+          <div className="flex gap-2 overflow-x-auto pb-3 -mx-1 px-1" style={{ scrollbarWidth: "none" }}>
+            {bikeTags.map((tag) => (
+              <button
+                key={tag}
+                onClick={() => { setActiveTag(tag); setCarouselIndex(0); }}
+                className={`px-3.5 py-1.5 rounded-full text-[11px] font-bold whitespace-nowrap transition-all duration-200 ${
+                  activeTag === tag
+                    ? "gradient-primary text-primary-foreground shadow-glow"
+                    : "glass border border-border/40 text-muted-foreground hover:text-foreground hover:glow-ring"
+                }`}
+              >
+                {tag}
+              </button>
+            ))}
+          </div>
+
           <div
             ref={carouselRef}
             className="flex gap-3 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-2 -mx-1 px-1"
             style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
           >
-            {featuredBikes.map((bike, i) => (
+            {filteredBikes.map((bike, i) => (
               <motion.div
-                key={bike.name}
+                key={bike.id}
                 initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
+                animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: i * 0.05 }}
                 whileTap={{ scale: 0.97 }}
-                onClick={() => navigate("/shop")}
+                onClick={() => navigate(`/bike/${bike.id}`)}
                 className="min-w-[160px] snap-center rounded-2xl glass border border-border/40 p-4 flex flex-col items-center gap-2 cursor-pointer hover:glow-ring transition-all duration-300"
               >
                 <img src={bike.img} alt={bike.name} className="w-24 h-24 object-contain mb-1" loading="lazy" width={96} height={96} />

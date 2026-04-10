@@ -6,6 +6,7 @@ import Auth from "@/pages/Auth";
 import DriverOnboarding from "@/pages/DriverOnboarding";
 import Marketplace from "@/pages/Marketplace";
 import BikeShop from "@/pages/BikeShop";
+import BikeDetail from "@/pages/BikeDetail";
 import Shop from "@/pages/Shop";
 import Trade from "@/pages/Trade";
 import Ride from "@/pages/Ride";
@@ -17,6 +18,7 @@ const pages = [
   { path: "/driver-onboarding", element: <DriverOnboarding /> },
   { path: "/marketplace", element: <Marketplace /> },
   { path: "/bike-shop", element: <BikeShop /> },
+  { path: "/bike/:id", element: <BikeDetail /> },
   { path: "/shop", element: <Shop /> },
   { path: "/trade", element: <Trade /> },
   { path: "/ride", element: <Ride /> },
