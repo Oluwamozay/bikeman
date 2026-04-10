@@ -1,8 +1,10 @@
 import { useParams, useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowLeft, Phone, ShoppingCart, Gauge, Zap, Fuel, Weight, Droplets, Activity } from "lucide-react";
+import { ArrowLeft, ShoppingCart, Gauge, Zap, Fuel, Weight, Droplets, Activity, MessageCircle, GitCompareArrows } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { featuredBikes } from "@/data/bikes";
+import ImageViewer from "@/components/ImageViewer";
 
 const specIcons: Record<string, React.ElementType> = {
   Engine: Gauge,
@@ -17,6 +19,8 @@ const BikeDetail = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const bike = featuredBikes.find((b) => b.id === id);
+  const [viewerOpen, setViewerOpen] = useState(false);
+  const [viewerIndex, setViewerIndex] = useState(0);
 
   if (!bike) {
     return (
@@ -28,6 +32,16 @@ const BikeDetail = () => {
       </div>
     );
   }
+
+  const whatsappMessage = encodeURIComponent(
+    `Hi! I'm interested in the ${bike.name} listed at ${bike.price} on Ocada Connect. Is it still available?`
+  );
+  const whatsappUrl = `https://wa.me/2348000000000?text=${whatsappMessage}`;
+
+  const openGallery = (index: number) => {
+    setViewerIndex(index);
+    setViewerOpen(true);
+  };
 
   return (
     <div className="min-h-screen bg-background pb-24">
@@ -46,12 +60,13 @@ const BikeDetail = () => {
       </div>
 
       <div className="max-w-md mx-auto px-5">
-        {/* Hero Image */}
+        {/* Hero Image - tappable */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.4 }}
-          className="py-8 flex justify-center"
+          className="py-8 flex justify-center cursor-pointer"
+          onClick={() => openGallery(0)}
         >
           <img
             src={bike.img}
@@ -114,54 +129,74 @@ const BikeDetail = () => {
         </motion.div>
 
         {/* Gallery */}
-        {bike.gallery.length > 1 && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            className="mb-8"
-          >
-            <h3 className="text-base font-bold mb-4">Gallery</h3>
-            <div className="flex gap-3 overflow-x-auto pb-2" style={{ scrollbarWidth: "none" }}>
-              {bike.gallery.map((img, i) => (
-                <img
-                  key={i}
-                  src={img}
-                  alt={`${bike.name} view ${i + 1}`}
-                  className="w-40 h-40 object-contain rounded-xl glass border border-border/40 p-2 shrink-0"
-                  loading="lazy"
-                  width={160}
-                  height={160}
-                />
-              ))}
-            </div>
-          </motion.div>
-        )}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+          className="mb-8"
+        >
+          <h3 className="text-base font-bold mb-4">Gallery</h3>
+          <div className="flex gap-3 overflow-x-auto pb-2" style={{ scrollbarWidth: "none" }}>
+            {bike.gallery.map((img, i) => (
+              <motion.img
+                key={i}
+                src={img}
+                alt={`${bike.name} view ${i + 1}`}
+                className="w-28 h-28 object-contain rounded-xl glass border border-border/40 p-2 shrink-0 cursor-pointer"
+                loading="lazy"
+                width={112}
+                height={112}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => openGallery(i)}
+              />
+            ))}
+          </div>
+        </motion.div>
 
         {/* CTA Buttons */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.45 }}
-          className="flex gap-3"
+          className="space-y-3"
         >
-          <Button
-            className="flex-1 h-13 rounded-2xl text-sm font-bold gradient-primary text-primary-foreground shadow-glow"
-            onClick={() => navigate("/shop")}
-          >
-            <ShoppingCart className="h-4 w-4 mr-2" />
-            Buy Now
-          </Button>
+          <div className="flex gap-3">
+            <Button
+              className="flex-1 h-13 rounded-2xl text-sm font-bold gradient-primary text-primary-foreground shadow-glow"
+              onClick={() => navigate("/shop")}
+            >
+              <ShoppingCart className="h-4 w-4 mr-2" />
+              Buy Now
+            </Button>
+            <Button
+              variant="outline"
+              className="h-13 rounded-2xl px-5 border-border/50 glass"
+              onClick={() => window.open(whatsappUrl, "_blank")}
+            >
+              <MessageCircle className="h-4 w-4 mr-1.5 text-green-500" />
+              WhatsApp
+            </Button>
+          </div>
           <Button
             variant="outline"
-            className="h-13 rounded-2xl px-5 border-border/50 glass"
-            onClick={() => window.open("tel:+2348000000000")}
+            className="w-full h-11 rounded-2xl text-xs font-bold border-border/50 glass"
+            onClick={() => navigate("/compare")}
           >
-            <Phone className="h-4 w-4 mr-1.5" />
-            Contact
+            <GitCompareArrows className="h-4 w-4 mr-2" />
+            Compare with other bikes
           </Button>
         </motion.div>
       </div>
+
+      {/* Fullscreen Image Viewer */}
+      {viewerOpen && (
+        <ImageViewer
+          images={bike.gallery}
+          initialIndex={viewerIndex}
+          alt={bike.name}
+          onClose={() => setViewerOpen(false)}
+        />
+      )}
     </div>
   );
 };
