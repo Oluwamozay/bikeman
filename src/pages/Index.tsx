@@ -61,6 +61,12 @@ const Index = () => {
   const [sortBy, setSortBy] = useState<SortOption>("default");
   const { toast } = useToast();
 
+  // Parallax scroll
+  const { scrollY } = useScroll();
+  const glowY1 = useTransform(scrollY, [0, 800], [0, -120]);
+  const glowY2 = useTransform(scrollY, [0, 800], [0, -80]);
+  const glowY3 = useTransform(scrollY, [0, 800], [0, -50]);
+
   // Price drop alerts for favorited bikes
   useEffect(() => {
     const alertKey = "ocada_price_drop_alerted";
