@@ -52,9 +52,9 @@ const Index = () => {
   const [carouselIndex, setCarouselIndex] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const pullY = useMotionValue(0);
-  const pullRotate = useTransform(pullY, [0, 80], [0, 360]);
-  const pullOpacity = useTransform(pullY, [0, 40, 80], [0, 0.6, 1]);
+  const [pullDistance, setPullDistance] = useState(0);
+  const touchStartY = useRef(0);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const scrollCarousel = (dir: number) => {
     const next = Math.max(0, Math.min(carouselIndex + dir, featuredBikes.length - 1));
@@ -62,14 +62,29 @@ const Index = () => {
     carouselRef.current?.children[next]?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
   };
 
-  const handlePullRelease = useCallback((_: any, info: { offset: { y: number } }) => {
-    if (info.offset.y > 80) {
-      setIsRefreshing(true);
-      setTimeout(() => {
-        setIsRefreshing(false);
-      }, 1500);
-    }
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    touchStartY.current = e.touches[0].clientY;
   }, []);
+
+  const handleTouchMove = useCallback((e: React.TouchEvent) => {
+    if (isRefreshing) return;
+    const scrollTop = containerRef.current?.scrollTop ?? window.scrollY;
+    if (scrollTop > 5) return;
+    const diff = e.touches[0].clientY - touchStartY.current;
+    if (diff > 0) {
+      setPullDistance(Math.min(diff * 0.4, 100));
+    }
+  }, [isRefreshing]);
+
+  const handleTouchEnd = useCallback(() => {
+    if (pullDistance > 60) {
+      setIsRefreshing(true);
+      setPullDistance(0);
+      setTimeout(() => setIsRefreshing(false), 1500);
+    } else {
+      setPullDistance(0);
+    }
+  }, [pullDistance]);
 
   return (
     <div className="min-h-screen bg-background relative overflow-x-hidden">
