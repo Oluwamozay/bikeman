@@ -8,6 +8,9 @@ import InstallPrompt from "@/components/InstallPrompt";
 import ThemeToggle from "@/components/ThemeToggle";
 import { useState, useRef, useCallback, useMemo } from "react";
 import { featuredBikes, bikeTags } from "@/data/bikes";
+import { useFavorites } from "@/hooks/useFavorites";
+import { Heart, X } from "lucide-react";
+import { Input } from "@/components/ui/input";
 
 const stats = [
   { label: "Active Riders", value: "2,400+", icon: Users },
@@ -44,11 +47,21 @@ const Index = () => {
   const touchStartY = useRef(0);
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeTag, setActiveTag] = useState("All");
+  const [searchQuery, setSearchQuery] = useState("");
+  const { toggleFavorite, isFavorite } = useFavorites();
 
-  const filteredBikes = useMemo(
-    () => activeTag === "All" ? featuredBikes : featuredBikes.filter((b) => b.tag === activeTag),
-    [activeTag]
-  );
+  const filteredBikes = useMemo(() => {
+    let bikes = activeTag === "All" ? featuredBikes : featuredBikes.filter((b) => b.tag === activeTag);
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase();
+      bikes = bikes.filter((b) =>
+        b.name.toLowerCase().includes(q) ||
+        b.price.toLowerCase().includes(q) ||
+        b.specs.some((s) => s.value.toLowerCase().includes(q))
+      );
+    }
+    return bikes;
+  }, [activeTag, searchQuery]);
 
   const scrollCarousel = (dir: number) => {
     const next = Math.max(0, Math.min(carouselIndex + dir, filteredBikes.length - 1));
@@ -284,6 +297,22 @@ const Index = () => {
           transition={{ duration: 0.5 }}
           className="mb-14"
         >
+          {/* Search Bar */}
+          <div className="relative mb-4">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder="Search by name, price, engine..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-9 pr-9 h-11 rounded-xl glass border-border/40 text-sm"
+            />
+            {searchQuery && (
+              <button onClick={() => setSearchQuery("")} className="absolute right-3 top-1/2 -translate-y-1/2">
+                <X className="h-4 w-4 text-muted-foreground" />
+              </button>
+            )}
+          </div>
+
           <div className="flex items-center justify-between mb-3">
             <div>
               <h2 className="text-xl font-bold">Featured Bikes</h2>
@@ -329,8 +358,14 @@ const Index = () => {
                 transition={{ delay: i * 0.05 }}
                 whileTap={{ scale: 0.97 }}
                 onClick={() => navigate(`/bike/${bike.id}`)}
-                className="min-w-[160px] snap-center rounded-2xl glass border border-border/40 p-4 flex flex-col items-center gap-2 cursor-pointer hover:glow-ring transition-all duration-300"
+                className="relative min-w-[160px] snap-center rounded-2xl glass border border-border/40 p-4 flex flex-col items-center gap-2 cursor-pointer hover:glow-ring transition-all duration-300"
               >
+                <button
+                  onClick={(e) => { e.stopPropagation(); toggleFavorite(bike.id); }}
+                  className="absolute top-2 right-2 w-7 h-7 rounded-full glass border border-border/40 flex items-center justify-center z-10"
+                >
+                  <Heart className={`h-3.5 w-3.5 transition-colors ${isFavorite(bike.id) ? "fill-red-500 text-red-500" : "text-muted-foreground"}`} />
+                </button>
                 <img src={bike.img} alt={bike.name} className="w-24 h-24 object-contain mb-1" loading="lazy" width={96} height={96} />
                 <span className="px-2 py-0.5 rounded-full bg-primary/15 text-primary text-[9px] font-bold">{bike.tag}</span>
                 <h3 className="text-xs font-bold text-center leading-tight">{bike.name}</h3>
