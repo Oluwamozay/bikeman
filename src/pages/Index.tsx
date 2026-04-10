@@ -439,6 +439,36 @@ const Index = () => {
           </div>
         </motion.section>
 
+        {/* ── Recently Viewed ── */}
+        {recentBikes.length > 0 && (
+          <motion.section
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.5 }}
+            className="mb-14"
+          >
+            <div className="flex items-center gap-2 mb-3">
+              <Clock className="h-4 w-4 text-primary" />
+              <h2 className="text-xl font-bold">Recently Viewed</h2>
+            </div>
+            <div className="flex gap-3 overflow-x-auto pb-2 -mx-1 px-1" style={{ scrollbarWidth: "none" }}>
+              {recentBikes.map((bike) => (
+                <motion.div
+                  key={bike!.id}
+                  whileTap={{ scale: 0.97 }}
+                  onClick={() => navigate(`/bike/${bike!.id}`)}
+                  className="min-w-[130px] snap-center rounded-2xl glass border border-border/40 p-3 flex flex-col items-center gap-1.5 cursor-pointer hover:glow-ring transition-all duration-300"
+                >
+                  <img src={bike!.img} alt={bike!.name} className="w-16 h-16 object-contain" loading="lazy" />
+                  <h3 className="text-[11px] font-bold text-center leading-tight">{bike!.name}</h3>
+                  <p className="text-xs font-bold text-primary">{bike!.price}</p>
+                </motion.div>
+              ))}
+            </div>
+          </motion.section>
+        )}
+
         {/* ── Testimonials ── */}
         <motion.section
           initial={{ opacity: 0, y: 40 }}
