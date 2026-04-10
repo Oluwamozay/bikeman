@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { Bike, ArrowRight, ShoppingBag, Repeat2, Car, LogIn, LogOut, Users, TrendingUp, Star, Shield, Zap, ChevronLeft, ChevronRight, Quote, Search, MapPin, CheckCircle, RefreshCw, Clock, TrendingDown } from "lucide-react";
@@ -60,6 +60,12 @@ const Index = () => {
   const { recentIds, addViewed } = useRecentlyViewed();
   const [sortBy, setSortBy] = useState<SortOption>("default");
   const { toast } = useToast();
+
+  // Parallax scroll
+  const { scrollY } = useScroll();
+  const glowY1 = useTransform(scrollY, [0, 800], [0, -120]);
+  const glowY2 = useTransform(scrollY, [0, 800], [0, -80]);
+  const glowY3 = useTransform(scrollY, [0, 800], [0, -50]);
 
   // Price drop alerts for favorited bikes
   useEffect(() => {
@@ -150,9 +156,9 @@ const Index = () => {
         </span>
       </motion.div>
       {/* Ambient glow effects */}
-      <div className="absolute top-0 left-1/4 w-[500px] h-[500px] rounded-full bg-primary/10 blur-[150px] pointer-events-none" />
-      <div className="absolute top-1/3 right-0 w-[400px] h-[400px] rounded-full bg-accent/8 blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-1/4 left-0 w-[300px] h-[300px] rounded-full bg-primary/5 blur-[100px] pointer-events-none" />
+      <motion.div style={{ y: glowY1 }} className="absolute top-0 left-1/4 w-[500px] h-[500px] rounded-full bg-primary/10 blur-[150px] pointer-events-none" />
+      <motion.div style={{ y: glowY2 }} className="absolute top-1/3 right-0 w-[400px] h-[400px] rounded-full bg-accent/8 blur-[120px] pointer-events-none" />
+      <motion.div style={{ y: glowY3 }} className="absolute bottom-1/4 left-0 w-[300px] h-[300px] rounded-full bg-primary/5 blur-[100px] pointer-events-none" />
 
       {/* Auth button */}
       <div className="absolute top-4 right-4 z-20 flex items-center gap-2">
