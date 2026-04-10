@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { Bike, ArrowRight, ShoppingBag, Repeat2, Car, LogIn, LogOut, Users, TrendingUp, Star, Shield, Zap, ChevronLeft, ChevronRight, Quote, Search, MapPin, CheckCircle, RefreshCw, Clock, TrendingDown, Bell } from "lucide-react";
+import { Bike, ArrowRight, ShoppingBag, Repeat2, Car, LogIn, LogOut, Users, TrendingUp, Star, Shield, Zap, ChevronLeft, ChevronRight, Quote, Search, MapPin, CheckCircle, RefreshCw, Clock, TrendingDown } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import SocialLinks from "@/components/SocialLinks";
 import InstallPrompt from "@/components/InstallPrompt";
