@@ -1,12 +1,18 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { Bike, ArrowRight, ShoppingBag, Repeat2, Car, LogIn, LogOut, Users, TrendingUp, Star, Shield, Zap, ChevronLeft, ChevronRight, Quote, Search, MapPin, CheckCircle } from "lucide-react";
+import { Bike, ArrowRight, ShoppingBag, Repeat2, Car, LogIn, LogOut, Users, TrendingUp, Star, Shield, Zap, ChevronLeft, ChevronRight, Quote, Search, MapPin, CheckCircle, RefreshCw } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import SocialLinks from "@/components/SocialLinks";
 import InstallPrompt from "@/components/InstallPrompt";
 import ThemeToggle from "@/components/ThemeToggle";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useCallback } from "react";
+
+import bikeBajaj from "@/assets/bike-bajaj-boxer.png";
+import bikeHonda from "@/assets/bike-honda-ace.png";
+import bikeTvs from "@/assets/bike-tvs-apache.png";
+import bikeSuzuki from "@/assets/bike-suzuki-gn.png";
+import bikeYamaha from "@/assets/bike-yamaha-ybr.png";
 
 const stats = [
   { label: "Active Riders", value: "2,400+", icon: Users },
@@ -33,11 +39,11 @@ const testimonials = [
 ];
 
 const featuredBikes = [
-  { name: "Bajaj Boxer 150", price: "₦485,000", tag: "Popular", img: "🏍️" },
-  { name: "Honda ACE 125", price: "₦620,000", tag: "New", img: "🏍️" },
-  { name: "TVS Apache 160", price: "₦750,000", tag: "Premium", img: "🏍️" },
-  { name: "Suzuki GN 125", price: "₦520,000", tag: "Best Value", img: "🏍️" },
-  { name: "Yamaha YBR 125", price: "₦580,000", tag: "Trending", img: "🏍️" },
+  { name: "Bajaj Boxer 150", price: "₦485,000", tag: "Popular", img: bikeBajaj },
+  { name: "Honda ACE 125", price: "₦620,000", tag: "New", img: bikeHonda },
+  { name: "TVS Apache 160", price: "₦750,000", tag: "Premium", img: bikeTvs },
+  { name: "Suzuki GN 125", price: "₦520,000", tag: "Best Value", img: bikeSuzuki },
+  { name: "Yamaha YBR 125", price: "₦580,000", tag: "Trending", img: bikeYamaha },
 ];
 
 const Index = () => {
@@ -45,6 +51,10 @@ const Index = () => {
   const { user, signOut } = useAuth();
   const [carouselIndex, setCarouselIndex] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [pullDistance, setPullDistance] = useState(0);
+  const touchStartY = useRef(0);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const scrollCarousel = (dir: number) => {
     const next = Math.max(0, Math.min(carouselIndex + dir, featuredBikes.length - 1));
@@ -52,8 +62,44 @@ const Index = () => {
     carouselRef.current?.children[next]?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
   };
 
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    touchStartY.current = e.touches[0].clientY;
+  }, []);
+
+  const handleTouchMove = useCallback((e: React.TouchEvent) => {
+    if (isRefreshing) return;
+    const scrollTop = containerRef.current?.scrollTop ?? window.scrollY;
+    if (scrollTop > 5) return;
+    const diff = e.touches[0].clientY - touchStartY.current;
+    if (diff > 0) {
+      setPullDistance(Math.min(diff * 0.4, 100));
+    }
+  }, [isRefreshing]);
+
+  const handleTouchEnd = useCallback(() => {
+    if (pullDistance > 60) {
+      setIsRefreshing(true);
+      setPullDistance(0);
+      setTimeout(() => setIsRefreshing(false), 1500);
+    } else {
+      setPullDistance(0);
+    }
+  }, [pullDistance]);
+
   return (
     <div className="min-h-screen bg-background relative overflow-x-hidden">
+      {/* Pull to refresh indicator */}
+      <motion.div
+        className="absolute top-2 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2 pointer-events-none"
+        initial={{ opacity: 0, y: -20 }}
+        animate={isRefreshing || pullDistance > 20 ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
+        transition={{ duration: 0.3 }}
+      >
+        <RefreshCw className={`h-5 w-5 text-primary ${isRefreshing ? "animate-spin" : ""}`} style={{ transform: !isRefreshing ? `rotate(${pullDistance * 3}deg)` : undefined }} />
+        <span className="text-xs text-muted-foreground font-medium">
+          {isRefreshing ? "Refreshing..." : pullDistance > 60 ? "Release to refresh" : "Pull to refresh"}
+        </span>
+      </motion.div>
       {/* Ambient glow effects */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] rounded-full bg-primary/8 blur-[120px] pointer-events-none" />
       <div className="absolute bottom-0 right-0 w-[300px] h-[300px] rounded-full bg-primary/5 blur-[80px] pointer-events-none" />
@@ -81,7 +127,14 @@ const Index = () => {
         )}
       </div>
 
-      <div className="relative z-10 max-w-md mx-auto px-5 py-8 pb-24">
+      <div
+        ref={containerRef}
+        className="relative z-10 max-w-md mx-auto px-5 py-8 pb-24"
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        style={{ transform: pullDistance > 0 ? `translateY(${pullDistance}px)` : undefined, transition: pullDistance === 0 ? 'transform 0.3s ease' : 'none' }}
+      >
         {/* Hero */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -267,7 +320,7 @@ const Index = () => {
                 onClick={() => navigate("/shop")}
                 className="min-w-[160px] snap-center rounded-2xl glass border border-border/40 p-4 flex flex-col items-center gap-2 cursor-pointer hover:glow-ring transition-all duration-300"
               >
-                <div className="text-4xl mb-1">{bike.img}</div>
+                <img src={bike.img} alt={bike.name} className="w-24 h-24 object-contain mb-1" loading="lazy" width={96} height={96} />
                 <span className="px-2 py-0.5 rounded-full bg-primary/15 text-primary text-[9px] font-bold">{bike.tag}</span>
                 <h3 className="text-xs font-bold text-center leading-tight">{bike.name}</h3>
                 <p className="text-sm font-bold text-primary">{bike.price}</p>
