@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { Bike, ArrowRight, ShoppingBag, Repeat2, Car, LogIn, LogOut, Users, TrendingUp, Star, Shield, Zap, ChevronLeft, ChevronRight, Quote, Search, MapPin, CheckCircle, RefreshCw, Clock, TrendingDown } from "lucide-react";
