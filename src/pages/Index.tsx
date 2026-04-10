@@ -39,11 +39,11 @@ const testimonials = [
 ];
 
 const featuredBikes = [
-  { name: "Bajaj Boxer 150", price: "₦485,000", tag: "Popular", img: "🏍️" },
-  { name: "Honda ACE 125", price: "₦620,000", tag: "New", img: "🏍️" },
-  { name: "TVS Apache 160", price: "₦750,000", tag: "Premium", img: "🏍️" },
-  { name: "Suzuki GN 125", price: "₦520,000", tag: "Best Value", img: "🏍️" },
-  { name: "Yamaha YBR 125", price: "₦580,000", tag: "Trending", img: "🏍️" },
+  { name: "Bajaj Boxer 150", price: "₦485,000", tag: "Popular", img: bikeBajaj },
+  { name: "Honda ACE 125", price: "₦620,000", tag: "New", img: bikeHonda },
+  { name: "TVS Apache 160", price: "₦750,000", tag: "Premium", img: bikeTvs },
+  { name: "Suzuki GN 125", price: "₦520,000", tag: "Best Value", img: bikeSuzuki },
+  { name: "Yamaha YBR 125", price: "₦580,000", tag: "Trending", img: bikeYamaha },
 ];
 
 const Index = () => {
