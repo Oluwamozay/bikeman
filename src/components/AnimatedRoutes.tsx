@@ -12,6 +12,8 @@ import Favorites from "@/pages/Favorites";
 import Shop from "@/pages/Shop";
 import Trade from "@/pages/Trade";
 import Ride from "@/pages/Ride";
+import Messages from "@/pages/Messages";
+import Notifications from "@/pages/Notifications";
 import NotFound from "@/pages/NotFound";
 
 const pages = [
@@ -26,6 +28,8 @@ const pages = [
   { path: "/shop", element: <Shop /> },
   { path: "/trade", element: <Trade /> },
   { path: "/ride", element: <Ride /> },
+  { path: "/messages", element: <Messages /> },
+  { path: "/notifications", element: <Notifications /> },
   { path: "*", element: <NotFound /> },
 ];
 
