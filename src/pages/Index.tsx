@@ -387,7 +387,7 @@ const Index = () => {
         </motion.section>
 
         <SocialLinks />
-      </motion.div>
+      </div>
 
       <InstallPrompt />
     </div>
