@@ -14,6 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Slider } from "@/components/ui/slider";
 import { useRecentlyViewed } from "@/hooks/useRecentlyViewed";
 import { useToast } from "@/hooks/use-toast";
+import NotificationBell from "@/components/NotificationBell";
 
 type SortOption = "default" | "price-asc" | "price-desc" | "name";
 
@@ -133,7 +134,7 @@ const Index = () => {
   }, [pullDistance]);
 
   return (
-    <div className="min-h-screen bg-background relative overflow-x-hidden">
+    <div className="min-h-screen bg-background mesh-bg relative overflow-x-hidden">
       {/* Pull to refresh indicator */}
       <motion.div
         className="absolute top-2 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2 pointer-events-none"
@@ -147,11 +148,13 @@ const Index = () => {
         </span>
       </motion.div>
       {/* Ambient glow effects */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] rounded-full bg-primary/8 blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-0 right-0 w-[300px] h-[300px] rounded-full bg-primary/5 blur-[80px] pointer-events-none" />
+      <div className="absolute top-0 left-1/4 w-[500px] h-[500px] rounded-full bg-primary/10 blur-[150px] pointer-events-none" />
+      <div className="absolute top-1/3 right-0 w-[400px] h-[400px] rounded-full bg-accent/8 blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-1/4 left-0 w-[300px] h-[300px] rounded-full bg-primary/5 blur-[100px] pointer-events-none" />
 
       {/* Auth button */}
       <div className="absolute top-4 right-4 z-20 flex items-center gap-2">
+        <NotificationBell />
         <ThemeToggle />
         {user ? (
           <div className="flex items-center gap-2">
