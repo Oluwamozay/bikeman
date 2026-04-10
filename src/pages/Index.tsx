@@ -296,7 +296,7 @@ const Index = () => {
                 onClick={() => navigate("/shop")}
                 className="min-w-[160px] snap-center rounded-2xl glass border border-border/40 p-4 flex flex-col items-center gap-2 cursor-pointer hover:glow-ring transition-all duration-300"
               >
-                <div className="text-4xl mb-1">{bike.img}</div>
+                <img src={bike.img} alt={bike.name} className="w-24 h-24 object-contain mb-1" loading="lazy" width={96} height={96} />
                 <span className="px-2 py-0.5 rounded-full bg-primary/15 text-primary text-[9px] font-bold">{bike.tag}</span>
                 <h3 className="text-xs font-bold text-center leading-tight">{bike.name}</h3>
                 <p className="text-sm font-bold text-primary">{bike.price}</p>
