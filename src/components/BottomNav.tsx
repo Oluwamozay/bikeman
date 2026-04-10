@@ -1,11 +1,11 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { Home, ShoppingBag, Repeat2, Car, Settings } from "lucide-react";
+import { Home, ShoppingBag, MessageCircle, Car, Settings } from "lucide-react";
 import { motion } from "framer-motion";
 
 const tabs = [
   { icon: Home, label: "Home", path: "/" },
   { icon: ShoppingBag, label: "Shop", path: "/shop" },
-  { icon: Repeat2, label: "Trade", path: "/trade" },
+  { icon: MessageCircle, label: "Chat", path: "/messages" },
   { icon: Car, label: "Ride", path: "/ride" },
   { icon: Settings, label: "Settings", path: "__settings__" },
 ];
