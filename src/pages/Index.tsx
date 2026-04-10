@@ -110,7 +110,14 @@ const Index = () => {
         )}
       </div>
 
-      <div className="relative z-10 max-w-md mx-auto px-5 py-8 pb-24">
+      <motion.div
+        className="relative z-10 max-w-md mx-auto px-5 py-8 pb-24"
+        drag="y"
+        dragConstraints={{ top: 0, bottom: 0 }}
+        dragElastic={{ top: 0.3, bottom: 0 }}
+        onDragEnd={handlePullRelease}
+        dragDirectionLock
+      >
         {/* Hero */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
