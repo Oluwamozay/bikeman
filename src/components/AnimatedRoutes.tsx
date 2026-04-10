@@ -8,6 +8,7 @@ import Marketplace from "@/pages/Marketplace";
 import BikeShop from "@/pages/BikeShop";
 import BikeDetail from "@/pages/BikeDetail";
 import BikeCompare from "@/pages/BikeCompare";
+import Favorites from "@/pages/Favorites";
 import Shop from "@/pages/Shop";
 import Trade from "@/pages/Trade";
 import Ride from "@/pages/Ride";
@@ -21,6 +22,7 @@ const pages = [
   { path: "/bike-shop", element: <BikeShop /> },
   { path: "/bike/:id", element: <BikeDetail /> },
   { path: "/compare", element: <BikeCompare /> },
+  { path: "/favorites", element: <Favorites /> },
   { path: "/shop", element: <Shop /> },
   { path: "/trade", element: <Trade /> },
   { path: "/ride", element: <Ride /> },

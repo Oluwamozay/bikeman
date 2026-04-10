@@ -11,6 +11,7 @@ import { featuredBikes, bikeTags } from "@/data/bikes";
 import { useFavorites } from "@/hooks/useFavorites";
 import { Heart, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { Slider } from "@/components/ui/slider";
 
 const stats = [
   { label: "Active Riders", value: "2,400+", icon: Users },
@@ -48,7 +49,8 @@ const Index = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeTag, setActiveTag] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
-  const { toggleFavorite, isFavorite } = useFavorites();
+  const [priceRange, setPriceRange] = useState<[number, number]>([300000, 900000]);
+  const { favorites, toggleFavorite, isFavorite } = useFavorites();
 
   const filteredBikes = useMemo(() => {
     let bikes = activeTag === "All" ? featuredBikes : featuredBikes.filter((b) => b.tag === activeTag);
@@ -60,8 +62,9 @@ const Index = () => {
         b.specs.some((s) => s.value.toLowerCase().includes(q))
       );
     }
+    bikes = bikes.filter((b) => b.priceNum >= priceRange[0] && b.priceNum <= priceRange[1]);
     return bikes;
-  }, [activeTag, searchQuery]);
+  }, [activeTag, searchQuery, priceRange]);
 
   const scrollCarousel = (dir: number) => {
     const next = Math.max(0, Math.min(carouselIndex + dir, filteredBikes.length - 1));
@@ -313,11 +316,38 @@ const Index = () => {
             )}
           </div>
 
+          {/* Price Range Slider */}
+          <div className="mb-4 p-3 rounded-xl glass border border-border/40">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-[11px] font-bold text-muted-foreground">Budget Range</span>
+              <span className="text-[11px] font-bold text-primary">
+                ₦{(priceRange[0] / 1000).toFixed(0)}k – ₦{(priceRange[1] / 1000).toFixed(0)}k
+              </span>
+            </div>
+            <Slider
+              min={300000}
+              max={900000}
+              step={10000}
+              value={priceRange}
+              onValueChange={(v) => setPriceRange(v as [number, number])}
+              className="w-full"
+            />
+          </div>
+
           <div className="flex items-center justify-between mb-3">
             <div>
               <h2 className="text-xl font-bold">Featured Bikes</h2>
               <p className="text-xs text-muted-foreground">Tap a bike for full details</p>
             </div>
+            {favorites.length > 0 && (
+              <button
+                onClick={() => navigate("/favorites")}
+                className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg glass border border-border/40 text-[10px] font-bold hover:glow-ring transition-all mr-2"
+              >
+                <Heart className="h-3 w-3 fill-red-500 text-red-500" />
+                {favorites.length}
+              </button>
+            )}
             <div className="flex gap-1.5">
               <button onClick={() => scrollCarousel(-1)} className="w-8 h-8 rounded-lg glass border border-border/40 flex items-center justify-center hover:glow-ring transition-all">
                 <ChevronLeft className="h-3.5 w-3.5" />
