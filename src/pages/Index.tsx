@@ -15,6 +15,7 @@ import { Slider } from "@/components/ui/slider";
 import { useRecentlyViewed } from "@/hooks/useRecentlyViewed";
 import { useToast } from "@/hooks/use-toast";
 import NotificationBell from "@/components/NotificationBell";
+import FloatingParticles from "@/components/FloatingParticles";
 
 type SortOption = "default" | "price-asc" | "price-desc" | "name";
 
@@ -135,6 +136,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background mesh-bg relative overflow-x-hidden">
+      <FloatingParticles />
       {/* Pull to refresh indicator */}
       <motion.div
         className="absolute top-2 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2 pointer-events-none"
