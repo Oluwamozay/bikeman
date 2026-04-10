@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { featuredBikes } from "@/data/bikes";
 import ImageViewer from "@/components/ImageViewer";
 import FinancingCalculator from "@/components/FinancingCalculator";
+import InsuranceEstimator from "@/components/InsuranceEstimator";
 
 const specIcons: Record<string, React.ElementType> = {
   Engine: Gauge,
@@ -150,6 +151,9 @@ const BikeDetail = () => {
 
         {/* Financing Calculator */}
         <FinancingCalculator bikePrice={bike.priceNum} bikeName={bike.name} />
+
+        {/* Insurance Estimator */}
+        <InsuranceEstimator bikePrice={bike.priceNum} bikeName={bike.name} />
 
         {/* Gallery */}
         <motion.div
