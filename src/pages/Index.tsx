@@ -1,4 +1,4 @@
-import { motion, useMotionValue, useTransform, useAnimation } from "framer-motion";
+import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { Bike, ArrowRight, ShoppingBag, Repeat2, Car, LogIn, LogOut, Users, TrendingUp, Star, Shield, Zap, ChevronLeft, ChevronRight, Quote, Search, MapPin, CheckCircle, RefreshCw } from "lucide-react";
@@ -6,7 +6,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import SocialLinks from "@/components/SocialLinks";
 import InstallPrompt from "@/components/InstallPrompt";
 import ThemeToggle from "@/components/ThemeToggle";
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useCallback } from "react";
 
 import bikeBajaj from "@/assets/bike-bajaj-boxer.png";
 import bikeHonda from "@/assets/bike-honda-ace.png";
@@ -125,13 +125,13 @@ const Index = () => {
         )}
       </div>
 
-      <motion.div
+      <div
+        ref={containerRef}
         className="relative z-10 max-w-md mx-auto px-5 py-8 pb-24"
-        drag="y"
-        dragConstraints={{ top: 0, bottom: 0 }}
-        dragElastic={{ top: 0.3, bottom: 0 }}
-        onDragEnd={handlePullRelease}
-        dragDirectionLock
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        style={{ transform: pullDistance > 0 ? `translateY(${pullDistance}px)` : undefined, transition: pullDistance === 0 ? 'transform 0.3s ease' : 'none' }}
       >
         {/* Hero */}
         <motion.div
