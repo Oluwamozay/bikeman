@@ -10,6 +10,7 @@ import {
 import OptimizedImage from "@/components/OptimizedImage";
 import SEOHead from "@/components/SEOHead";
 import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
+import LocationSearch from "@/components/LocationSearch";
 
 interface Product {
   id: string;
@@ -43,6 +44,8 @@ const BikeShop = () => {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const [activeBrand, setActiveBrand] = useState("All");
+
+  const [locationFilter, setLocationFilter] = useState<{ lat: number; lng: number; radius: number } | null>(null);
 
   const filtered = mockProducts.filter((p) => {
     const matchesSearch = p.name.toLowerCase().includes(search.toLowerCase()) || p.brand.toLowerCase().includes(search.toLowerCase());
@@ -112,9 +115,17 @@ const BikeShop = () => {
           ))}
         </motion.div>
 
+        {/* Location Search */}
+        <div className="mb-4">
+          <LocationSearch
+            onLocationChange={(lat, lng, radius) => setLocationFilter({ lat, lng, radius })}
+            onClear={() => setLocationFilter(null)}
+          />
+        </div>
+
         {/* Results count */}
         <p className="text-[10px] text-muted-foreground mb-3">
-          Showing {visibleItems.length} of {total} bikes
+          Showing {visibleItems.length} of {total} bikes{locationFilter ? ` within ${locationFilter.radius}km` : ""}
         </p>
 
         {/* Products List with infinite scroll */}

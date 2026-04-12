@@ -150,12 +150,19 @@ const Messages = () => {
             <ScrollArea className="flex-1 p-4">
               {messages.map((m) => (
                 <div key={m.id} className={`flex mb-3 ${m.sender_id === user.id ? "justify-end" : "justify-start"}`}>
-                  <div className={`max-w-[75%] px-3 py-2 rounded-2xl text-sm ${
-                    m.sender_id === user.id
-                      ? "gradient-primary text-primary-foreground rounded-br-md"
-                      : "bg-secondary/60 rounded-bl-md"
-                  }`}>
-                    {m.content}
+                  <div className="flex flex-col items-end gap-0.5">
+                    <div className={`max-w-[75%] px-3 py-2 rounded-2xl text-sm ${
+                      m.sender_id === user.id
+                        ? "gradient-primary text-primary-foreground rounded-br-md"
+                        : "bg-secondary/60 rounded-bl-md"
+                    }`}>
+                      {m.content}
+                    </div>
+                    {m.sender_id === user.id && (
+                      <span className={`text-[9px] mr-1 ${m.is_read ? "text-blue-400" : "text-muted-foreground/50"}`}>
+                        {m.is_read ? "✓✓ Read" : "✓ Sent"}
+                      </span>
+                    )}
                   </div>
                 </div>
               ))}
