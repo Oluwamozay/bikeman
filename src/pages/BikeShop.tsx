@@ -10,6 +10,7 @@ import {
 import OptimizedImage from "@/components/OptimizedImage";
 import SEOHead from "@/components/SEOHead";
 import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
+import LocationSearch from "@/components/LocationSearch";
 
 interface Product {
   id: string;
