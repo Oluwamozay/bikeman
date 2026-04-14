@@ -34,7 +34,7 @@ const BikeDetail = () => {
   if (!bike) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
-        <SEOHead title="Bike Not Found — Ocada Connect" description="The requested bike listing could not be found." />
+        <SEOHead title="Bike Not Found — Bikeman" description="The requested bike listing could not be found." />
         <div className="text-center">
           <p className="text-muted-foreground mb-4">Bike not found</p>
           <Button onClick={() => navigate("/")} variant="outline">Go Home</Button>
@@ -43,7 +43,7 @@ const BikeDetail = () => {
     );
   }
 
-  const whatsappMessage = encodeURIComponent(`Hi! I'm interested in the ${bike.name} listed at ${bike.price} on Ocada Connect. Is it still available?`);
+  const whatsappMessage = encodeURIComponent(`Hi! I'm interested in the ${bike.name} listed at ${bike.price} on Bikeman. Is it still available?`);
   const whatsappUrl = `https://wa.me/2348000000000?text=${whatsappMessage}`;
   const openGallery = (index: number) => { setViewerIndex(index); setViewerOpen(true); trackEvent(bike.id, "click"); };
   const handleInquiry = () => { trackEvent(bike.id, "inquiry"); window.open(whatsappUrl, "_blank"); };
@@ -51,7 +51,7 @@ const BikeDetail = () => {
 
   return (
     <div className="min-h-screen bg-background pb-24">
-      <SEOHead title={`${bike.name} — ${bike.price} | Ocada Connect`} description={bike.description} image={bike.img} url={`https://bikeman.lovable.app/bike/${bike.id}`} type="product" />
+      <SEOHead title={`${bike.name} — ${bike.price} | Bikeman`} description={bike.description} image={bike.img} url={`https://bikeman.lovable.app/bike/${bike.id}`} type="product" />
 
       {/* Header */}
       <div className="sticky top-0 z-20 glass border-b border-border/40 px-4 py-3 flex items-center gap-3">
