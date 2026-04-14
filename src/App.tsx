@@ -10,6 +10,7 @@ import SplashScreen from "@/components/SplashScreen";
 import AnimatedRoutes from "@/components/AnimatedRoutes";
 import SettingsSidebar from "@/components/SettingsSidebar";
 import AIChatbot from "@/components/AIChatbot";
+import PushNotificationManager from "@/components/PushNotificationManager";
 
 const queryClient = new QueryClient();
 
@@ -42,6 +43,7 @@ const App = () => {
             <BottomNav onSettingsOpen={() => setSettingsOpen(true)} />
             <SettingsSidebar open={settingsOpen} onClose={() => setSettingsOpen(false)} />
             <AIChatbot />
+            <PushNotificationManager />
           </BrowserRouter>
         </TooltipProvider>
       </AuthProvider>
