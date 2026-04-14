@@ -80,7 +80,7 @@ const Auth = () => {
           <div>
             <h1 className="text-xl font-bold">{isLogin ? "Welcome Back" : "Create Account"}</h1>
             <p className="text-sm text-muted-foreground">
-              {isLogin ? "Sign in to continue" : "Join Ocada Connect today"}
+              {isLogin ? "Sign in to continue" : "Join Bikeman today"}
             </p>
           </div>
         </motion.div>

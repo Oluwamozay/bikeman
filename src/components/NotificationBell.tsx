@@ -23,11 +23,11 @@ const NotificationBell = () => {
     setPermission(result);
 
     if (result === "granted") {
-      new Notification("🔔 Ocada Connect", {
+      new Notification("🔔 Bikeman", {
         body: "You'll now receive price drop alerts for your favorites!",
         icon: "/icons/icon-192x192.png",
       });
-      localStorage.setItem("ocada_push_enabled", "1");
+      localStorage.setItem("bikeman_push_enabled", "1");
     }
   };
 

@@ -57,7 +57,7 @@ const BikeShop = () => {
 
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">
-      <SEOHead title="Bike Shop — New Bikes from Verified Sellers | Ocada Connect" description="Browse new motorcycles from verified sellers across Nigeria. Honda, Bajaj, TVS, Yamaha, Suzuki and more." />
+      <SEOHead title="Bike Shop — New Bikes from Verified Sellers | Bikeman" description="Browse new motorcycles from verified sellers across Nigeria. Honda, Bajaj, TVS, Yamaha, Suzuki and more." />
 
       <div className="absolute top-0 left-0 w-72 h-72 rounded-full bg-secondary/5 blur-3xl -translate-y-1/2 -translate-x-1/2" />
       <div className="absolute bottom-20 right-0 w-80 h-80 rounded-full bg-accent/5 blur-3xl translate-x-1/2" />

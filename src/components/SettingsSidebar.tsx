@@ -392,7 +392,7 @@ const SettingsSidebar = ({ open, onClose }: SettingsSidebarProps) => {
             </div>
             <div className="mt-8 text-center">
               <p className="text-[10px] text-muted-foreground">App Version 1.0.0</p>
-              <p className="text-[9px] text-muted-foreground mt-1">© 2026 Ocada Connect</p>
+              <p className="text-[9px] text-muted-foreground mt-1">© 2026 Bikeman</p>
             </div>
           </motion.div>
         );
@@ -407,7 +407,7 @@ const SettingsSidebar = ({ open, onClose }: SettingsSidebarProps) => {
                 { icon: Mail, label: "Contact Support", desc: "Email our support team" },
                 { icon: FileText, label: "Terms of Service", desc: "Read our terms" },
                 { icon: Shield, label: "Privacy Policy", desc: "Data protection info" },
-                { icon: Info, label: "About Ocada", desc: "Learn more about us" },
+                { icon: Info, label: "About Bikeman", desc: "Learn more about us" },
               ].map((item) => (
                 <button key={item.label} className="w-full flex items-center gap-3 p-3 rounded-xl glass border border-border/30 hover:glow-ring transition-all duration-300">
                   <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">

@@ -43,7 +43,7 @@ const SplashScreen = ({ show }: SplashScreenProps) => (
           transition={{ delay: 0.4 }}
           className="text-3xl font-bold tracking-tight mb-1"
         >
-          Ocada<span className="text-gradient"> Connect</span>
+          Bike<span className="text-gradient">man</span>
         </motion.h1>
 
         <motion.p

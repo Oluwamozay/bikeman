@@ -15,6 +15,7 @@ import Ride from "@/pages/Ride";
 import Messages from "@/pages/Messages";
 import Notifications from "@/pages/Notifications";
 import Analytics from "@/pages/Analytics";
+import Referrals from "@/pages/Referrals";
 import NotFound from "@/pages/NotFound";
 
 const pages = [
@@ -32,6 +33,7 @@ const pages = [
   { path: "/messages", element: <Messages /> },
   { path: "/notifications", element: <Notifications /> },
   { path: "/analytics", element: <Analytics /> },
+  { path: "/referrals", element: <Referrals /> },
   { path: "*", element: <NotFound /> },
 ];
 

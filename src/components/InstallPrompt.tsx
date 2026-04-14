@@ -45,7 +45,7 @@ const InstallPrompt = () => {
               <Download className="h-5 w-5 text-primary-foreground" />
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-semibold">Install Ocada Connect</p>
+              <p className="text-sm font-semibold">Install Bikeman</p>
               <p className="text-xs text-muted-foreground">Add to home screen for the best experience</p>
             </div>
             <Button onClick={handleInstall} size="sm" className="rounded-xl gradient-primary text-primary-foreground shadow-glow shrink-0 text-xs h-8 px-3">

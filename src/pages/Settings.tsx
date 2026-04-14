@@ -451,7 +451,7 @@ const Settings = () => {
 
             <div className="mt-8 text-center">
               <p className="text-[11px] text-muted-foreground">App Version 1.0.0</p>
-              <p className="text-[10px] text-muted-foreground mt-1">© 2026 Ocada Connect</p>
+              <p className="text-[10px] text-muted-foreground mt-1">© 2026 Bikeman</p>
             </div>
           </motion.div>
         );
@@ -466,7 +466,7 @@ const Settings = () => {
                 { icon: Mail, label: "Contact Support", desc: "Email our support team" },
                 { icon: FileText, label: "Terms of Service", desc: "Read our terms" },
                 { icon: Shield, label: "Privacy Policy", desc: "Data protection info" },
-                { icon: Info, label: "About Ocada", desc: "Learn more about us" },
+                { icon: Info, label: "About Bikeman", desc: "Learn more about us" },
               ].map((item, i) => (
                 <motion.button
                   key={item.label}

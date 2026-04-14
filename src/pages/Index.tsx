@@ -38,9 +38,9 @@ const howItWorks = [
 ];
 
 const testimonials = [
-  { name: "Chidi A.", role: "Bike Trader", text: "Ocada Connect made selling my old bike so easy. Got a fair deal within 2 days!", avatar: "C" },
+  { name: "Chidi A.", role: "Bike Trader", text: "Bikeman made selling my old bike so easy. Got a fair deal within 2 days!", avatar: "C" },
   { name: "Amina K.", role: "Daily Rider", text: "I use the ride feature every day. Fast, reliable, and the drivers are verified.", avatar: "A" },
-  { name: "Tunde O.", role: "Bike Dealer", text: "My shop sales doubled since listing on Ocada. The platform is a game-changer!", avatar: "T" },
+  { name: "Tunde O.", role: "Bike Dealer", text: "My shop sales doubled since listing on Bikeman. The platform is a game-changer!", avatar: "T" },
   { name: "Ngozi E.", role: "Student", text: "Affordable rides to campus. The app is super smooth and easy to use.", avatar: "N" },
 ];
 
@@ -70,7 +70,7 @@ const Index = () => {
 
   // Price drop alerts for favorited bikes
   useEffect(() => {
-    const alertKey = "ocada_price_drop_alerted";
+    const alertKey = "bikeman_price_drop_alerted";
     const alerted: string[] = JSON.parse(localStorage.getItem(alertKey) || "[]");
     const droppedFavs = featuredBikes.filter(
       (b) => favorites.includes(b.id) && b.originalPriceNum && !alerted.includes(b.id)
@@ -144,7 +144,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background mesh-bg relative overflow-x-hidden">
       <SEOHead
-        title="Ocada Connect — Nigeria's Smartest Bike Platform"
+        title="Bikeman — Nigeria's Smartest Bike Platform"
         description="Shop, trade, and ride motorcycles across Nigeria. Browse bikes from verified sellers, book rides, and connect with the rider community."
       />
       <FloatingParticles />
@@ -222,8 +222,8 @@ const Index = () => {
             transition={{ delay: 0.25 }}
             className="text-4xl font-bold tracking-tight leading-[1.1] mb-3"
           >
-            Ocada
-            <span className="text-gradient"> Connect</span>
+            Bike
+            <span className="text-gradient">man</span>
           </motion.h1>
 
           <motion.p

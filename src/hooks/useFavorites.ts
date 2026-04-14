@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 
-const STORAGE_KEY = "ocada_favorites";
+const STORAGE_KEY = "bikeman_favorites";
 
 const readFavorites = (): string[] => {
   try {

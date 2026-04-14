@@ -135,7 +135,7 @@ const Analytics = () => {
 
   return (
     <div className="min-h-screen bg-background pb-24">
-      <SEOHead title="Listing Analytics — Ocada Connect" description="Track views, clicks, and conversions for your bike listings" />
+      <SEOHead title="Listing Analytics — Bikeman" description="Track views, clicks, and conversions for your bike listings" />
 
       {/* Header */}
       <div className="sticky top-0 z-20 glass border-b border-border/40 px-4 py-3 flex items-center gap-3">

@@ -1,7 +1,7 @@
 {
-  "name": "Ocada Connect",
-  "short_name": "Ocada",
-  "description": "Nigeria's smartest ride platform. Connect with riders, earn more, ride safer.",
+  "name": "Bikeman",
+  "short_name": "Bikeman",
+  "description": "Nigeria's smartest ride platform. Shop, trade & ride — all in one app.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#031a0e",
